@@ -1,14 +1,7 @@
-// import { useState } from 'react';
-import './assets/bootstrap/css/bootstrap.min.css';
-import './assets/css/baguetteBox.min.css';
-import './assets/fonts/font-awesome.min.css';  
-import Login from './Login';
-import Register from './Register';
+// src/App.tsx
 import Navbar from './Navbar';
 
-import DesignerImage from './assets/img/Designer.png';
-
-function HomePage() {
+function Movies() {
   return (
     <html data-bs-theme="light" lang="en">
       <head>
@@ -33,7 +26,6 @@ function HomePage() {
           style={{
             margin: 0,
             padding: 0,
-            backgroundImage: `url(${DesignerImage})`,
             backgroundSize: 'cover',
             height: '100vh',
             display: 'flex',
@@ -41,23 +33,6 @@ function HomePage() {
             justifyContent: 'center',
           }}
         >
-          <div className="container my-auto">
-            <div className="row">
-              <div className="col-lg-10 mx-auto">
-                <h1 className="text-uppercase">
-                  <strong style={{ fontFamily: 'Merriweather' }}>
-                    &nbsp;<span style={{ color: 'rgb(231, 7, 7)' }}>collect</span> and{' '}
-                    <span style={{ color: 'rgb(235, 10, 10)' }}>share</span> your Movies.
-                  </strong>
-                </h1>
-                <hr />
-              </div>
-            </div>
-            <div className="col-lg-8 mx-auto">
-              <Login/>
-              <Register/>
-            </div>
-          </div>
         </header>
         <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="./assets/js/baguetteBox.min.js"></script>
@@ -67,4 +42,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Movies;
