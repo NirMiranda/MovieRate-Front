@@ -8,7 +8,7 @@ function Movies() {
   return (
     <>
       <h1>movies </h1>
-      <Button className="btn" onClick={() => { navigate("/Movie/Idan") }}>go to movie</Button>
+      <Button className="btn" onClick={() => { navigate("/MoviePage/65a56dc5bc9b7f4e16e33b0f") }}>go to movie</Button>
     </>
   );
 }
