@@ -1,4 +1,3 @@
-// src/App.tsx
 
 function About() {
     return (
