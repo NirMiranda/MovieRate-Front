@@ -1,14 +1,13 @@
-// import { useState } from 'react';
 import './assets/bootstrap/css/bootstrap.min.css';
 import './assets/css/baguetteBox.min.css';
-import './assets/fonts/font-awesome.min.css';  
+import './assets/fonts/font-awesome.min.css';
 import Login from './Login';
 import Register from './Register';
 import Navbar from './Navbar';
 
 import DesignerImage from './assets/img/Designer.png';
-
 function HomePage() {
+
   return (
     <html data-bs-theme="light" lang="en">
       <head>
@@ -18,7 +17,7 @@ function HomePage() {
           content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
         />
         <title>Home - Brand</title>
-        <link rel="stylesheet" href="path/to/your/custom.css" />
+        <link rel="stylesheet" />
       </head>
       <body
         className="fs-4 align-items-center align-content-center align-self-center mx-auto"
@@ -27,7 +26,8 @@ function HomePage() {
         data-bs-target="#mainNav"
         data-bs-offset="57"
       >
-        <Navbar/>
+        <Navbar />
+
         <header
           className="text-center text-white d-flex masthead"
           style={{
@@ -54,8 +54,8 @@ function HomePage() {
               </div>
             </div>
             <div className="col-lg-8 mx-auto">
-              <Login/>
-              <Register/>
+              <Login />
+              <Register />
             </div>
           </div>
         </header>
