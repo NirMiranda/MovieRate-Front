@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 
@@ -38,7 +38,7 @@ function MoviePage() {
     fetchMovie();
   }, []);
     return (
-      
+    
     <div>
         <h1>{movie?.movieName}</h1>
         <p>{movie?.description}</p>

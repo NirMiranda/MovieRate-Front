@@ -7,7 +7,7 @@ type m = {
 function Moviecard({ data }: m) {
     const navigate = useNavigate()
     const handleClick = (_id: string) => {
-        navigate(`/movie/${_id}`)
+        navigate(`/moviePage/${_id}`)
     }
     return (
         <>
@@ -27,7 +27,7 @@ function Moviecard({ data }: m) {
                         }} >From: {data?.year}</p>
                     </div>
                 </div>
-            </div >
+            </div >     
         </>
     );
 }
