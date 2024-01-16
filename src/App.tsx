@@ -1,11 +1,11 @@
-// src/App.tsx
-import Navbar from './components/Register/NavBar/Navbar';
+import Navbar from './components/NavBar/Navbar';
 import HomePage from './pages/HomePage/HomePage';
 import Movies from "./pages/MoviesPage/MoviesPage"
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import About from './pages/AboutPage/AboutPage';
 import Services from './pages/ServicesPage/ServicesPage';
 import MoviePage from './pages/MoviePage/MoviePage';
+import './App.css'
 
 
 
