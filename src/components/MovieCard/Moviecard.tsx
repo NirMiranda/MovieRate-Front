@@ -1,4 +1,4 @@
-import { movie } from "./Movies";
+import { movie } from "../../pages/MoviesPage/MoviesPage";
 import { useNavigate } from "react-router-dom";
 type m = {
     data: movie

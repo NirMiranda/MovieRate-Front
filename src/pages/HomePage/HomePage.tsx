@@ -1,9 +1,9 @@
 import './assets/bootstrap/css/bootstrap.min.css';
 import './assets/css/baguetteBox.min.css';
 import './assets/fonts/font-awesome.min.css';
-import Login from './Login';
-import Register from './Register';
-import Navbar from './Navbar';
+import Login from '../../components/Login/Login';
+import Register from '../../components/Register/Register';
+import Navbar from '../../components/Register/NavBar/Navbar';
 
 import DesignerImage from './assets/img/Designer.png';
 function HomePage() {

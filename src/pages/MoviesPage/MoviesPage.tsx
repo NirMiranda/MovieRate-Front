@@ -1,4 +1,4 @@
-import Moviecard from "./Moviecard";
+import Moviecard from "../../components/MovieCard/Moviecard";
 import axios from "axios";
 import { useState, useEffect } from "react";
 export type movie = {

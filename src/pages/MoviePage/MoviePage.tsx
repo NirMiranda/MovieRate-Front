@@ -38,8 +38,8 @@ function MoviePage() {
     fetchMovie();
   }, []);
     return (
-    
-    <div>
+    <div style={{ backgroundColor: 'black' }} >
+      
         <h1>{movie?.movieName}</h1>
         <p>{movie?.description}</p>
         <p>{movie?.year}</p>
