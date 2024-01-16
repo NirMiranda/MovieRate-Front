@@ -1,18 +1,47 @@
-
-
-import { useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import { useState, FormEvent } from 'react';
+import { Modal, Alert } from 'react-bootstrap';
+import axios, { AxiosError } from 'axios';
 
 function Register() {
     const [showModal, setShowModal] = useState(false);
+    const [validationError, setValidationError] = useState<string | null>(null); //מערך שגיאות שברגע שיש שגיאה זה נכנס ל set ומעדכן את המערך
 
-    const handleShow = () => setShowModal(true);
+    const handleShow = () => {
+        setShowModal(true);
+        setValidationError(null);
+    };
+
     const handleClose = () => setShowModal(false);
 
-    const handleFormSubmit = (e: { preventDefault: () => void; }) => {
+    const handleFormSubmit = async (e: FormEvent) => { //החיבור של ה axios מתבצע כאן
         e.preventDefault();
-        console.log('Registered');
-        handleClose();
+
+        const name = (document.getElementById('name') as HTMLInputElement).value;
+        const email = (document.getElementById('exampleInputEmail1') as HTMLInputElement).value;
+        const password = (document.getElementById('password') as HTMLInputElement).value;
+        const age = (document.getElementById('age') as HTMLInputElement).value;
+
+        try {
+            const response = await axios.post<{ data: string }>('http://localhost:3003/auth/register', {
+                name,
+                email,
+                password,
+                age
+            });
+
+            console.log('Registered successfully:', response.data.data);
+            handleClose();
+        } catch (error: any) {
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.data && error.response.data.error) {
+                    setValidationError(error.response.data.error);
+                } else {
+                    console.error('Registration failed:', error.message);
+                }
+            } else {
+                console.error('Registration failed:', error);
+            }
+        }
     };
 
     return (
@@ -26,9 +55,14 @@ function Register() {
                     <Modal.Title>Register</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {validationError && (
+                        <Alert variant="danger" onClose={() => setValidationError(null)} dismissible>
+                            {validationError}
+                        </Alert>
+                    )}
 
                     <form onSubmit={handleFormSubmit}>
-                        <h3>Hello, please register </h3>
+                        <h3>Hello, please register</h3>
                         <div className="mb-3">
                             <label htmlFor="exampleInputEmail1" className="form-label">
                                 Full name
@@ -54,8 +88,7 @@ function Register() {
                         </div>
 
                         <div className="mb-3">
-                            <label htmlFor="password"
-                                className="form-label">
+                            <label htmlFor="password" className="form-label">
                                 Password
                             </label>
                             <input
