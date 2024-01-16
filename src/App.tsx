@@ -1,11 +1,11 @@
 // src/App.tsx
-import Navbar from './Navbar';
-import HomePage from './HomePage';
-import Movies from "./Movies"
+import Navbar from './components/Register/NavBar/Navbar';
+import HomePage from './pages/HomePage/HomePage';
+import Movies from "./pages/MoviesPage/MoviesPage"
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
-import About from './about';
-import Services from './services';
-import Movie from './movie';
+import About from './pages/AboutPage/AboutPage';
+import Services from './pages/ServicesPage/ServicesPage';
+import MoviePage from './pages/MoviePage/MoviePage';
 
 
 
@@ -15,7 +15,7 @@ const router = createBrowserRouter(
       <Route path='/' element={<Navbar />}>
         <Route path='/' element={<HomePage />} />
         <Route path='/movies' element={<Movies />} />
-        <Route path='/movie/:id' element={<Movie />} />
+        <Route path='/moviePage/:id' element={<MoviePage />} />
         <Route path='/services' element={<Services />} />
         <Route path='/about' element={<About />} />
       </Route>
