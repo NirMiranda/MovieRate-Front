@@ -13,8 +13,7 @@ function Register() {
 
     const handleClose = () => setShowModal(false);
 
-    const handleFormSubmit = async (e: FormEvent) => { //החיבור של ה axios מתבצע כאן
-        e.preventDefault();
+    const handleFormSubmit = async (e: FormEvent) => { 
 
         const name = (document.getElementById('name') as HTMLInputElement).value;
         const email = (document.getElementById('exampleInputEmail1') as HTMLInputElement).value;
@@ -22,6 +21,7 @@ function Register() {
         const age = (document.getElementById('age') as HTMLInputElement).value;
 
         try {
+            
             const response = await axios.post<{ data: string }>('http://localhost:3003/auth/register', {
                 name,
                 email,
