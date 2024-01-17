@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import { Modal, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import './Register.css'
 
 function Register() {
     const [showModal, setShowModal] = useState(false);
