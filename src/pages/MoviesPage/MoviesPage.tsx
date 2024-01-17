@@ -20,17 +20,27 @@ function Movies() {
     const { data } = await axios.get("http://localhost:3003/movie/getAllMovies")
     setMovies(data)
   }
-  useEffect(() => {
-    getaAllMovies()
-  }, [])
-
+  useEffect(() => { getaAllMovies() }, [])
   return (
-    <>
-      <h1>movies </h1>
-      {movies && movies.map((movie) => {
-        return <Moviecard data={movie} />
-      })}
-    </>
+    <div>
+      <section className="top-ten" style={{ height: "500px" }}>
+        <div style={{ marginLeft: "10px" }}>
+          <h2 style={{ color: "white" }}>Top 10 by rating: </h2>
+        </div>
+        <div style={{ display: "flex" }}>{movies && movies.map((movie) => {
+          return <Moviecard data={movie} />
+        })}</div>
+      </section>
+      <section className="allmovies" style={{ height: "500px" }}>
+        <div style={{ marginLeft: "10px" }}>
+          <h2 style={{ color: "white" }}>All Movies: </h2>
+        </div>
+        <div style={{ display: "flex" }}>{movies && movies.map((movie) => {
+          return <Moviecard data={movie} />
+        })}</div>
+      </section>
+    </div >
+
   );
 }
 
