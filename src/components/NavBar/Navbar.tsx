@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 function Navbar() {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg fixed-top navbar-light" id="mainNav">
+      <nav className="navbar navbar-expand-lg fixed-top navbar-light" id="mainNav" style={{ backgroundColor: '#222222' }}>
         <div className="container">
           <a className="navbar-brand" href="#page-top">MOVIES</a>
           <button
@@ -25,7 +25,7 @@ function Navbar() {
                 <NavLink className="nav-link" to="/About">About</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/Services">Services</NavLink>
+                <NavLink className="nav-link" to="/Profile">Profile</NavLink>
 
               </li>
               <li className="nav-item">
