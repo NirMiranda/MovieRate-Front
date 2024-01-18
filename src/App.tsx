@@ -6,6 +6,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import About from './pages/AboutPage/AboutPage';
 import Services from './pages/ServicesPage/ServicesPage';
 import MoviePage from './pages/MoviePage/MoviePage';
+import ProfilePage from './pages/ProfilePage/Profile'
 
 
 
@@ -16,8 +17,9 @@ const router = createBrowserRouter(
         <Route path='/' element={<HomePage />} />
         <Route path='/movies' element={<Movies />} />
         <Route path='/moviePage/:id' element={<MoviePage />} />
-        <Route path='/services' element={<Services />} />
+        <Route path='/profile' element={<ProfilePage/>} />
         <Route path='/about' element={<About />} />
+        
       </Route>
     </>
   ))
