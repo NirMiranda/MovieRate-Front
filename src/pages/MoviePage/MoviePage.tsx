@@ -41,7 +41,7 @@ function MoviePage() {
         <div className="movieLogo">
         <MovieLogo data={movieItem as movie} />
         </div>
-        <YouTube videoId={movieItem?.trailer} />
+        <YouTube videoId={movieItem?.trailer} style={{borderRadius:"100px"}} />
         </div>
         <h1>{movieItem?.movieName}</h1>
         <p>{movieItem?.description}</p>

@@ -17,7 +17,7 @@ function MovieLogo({ data }: m) {
         sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', p: 0, m: 0 }}
         className="movieLogo"
       >
-        <Card component="li" sx={{ width:210,height:350,marginRight:10,flexGrow: 1 }}>
+        <Card component="li" sx={{ width:210,height:350,marginRight:1,flexGrow: 1 }}>
           <CardCover>
             <img
               src= {data?.image}
