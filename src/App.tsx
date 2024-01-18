@@ -27,7 +27,7 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <div style={{ flex: 1 }}>
+    <div style={{ flex: 1, backgroundColor: "rgb(25,25,25)" }}>
       <RouterProvider router={router} />
     </div>
   );

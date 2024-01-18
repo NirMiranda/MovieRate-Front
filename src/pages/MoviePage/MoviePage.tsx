@@ -15,13 +15,13 @@ function MoviePage() {
   const [movieItem, setMovie] = useState<movie | undefined>(undefined);
   const movieId = useParams().id;
   const apiUrl = `http://localhost:3003/movie/getMovieById/${movieId}`;
-  
+
 
   const fetchMovie = async () => {
     try {
       const response = await axios.get(apiUrl);
-      setMovie(()=>{
-          return response.data;
+      setMovie(() => {
+        return response.data;
       });
     } catch (error) {
       console.log(movieId);

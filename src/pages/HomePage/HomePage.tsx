@@ -63,7 +63,7 @@ function HomePage() {
         <script src="./assets/js/baguetteBox.min.js"></script>
         <script src="./assets/js/creative.js"></script>
       </body>
-    </html>
+    </html >
   );
 }
 
