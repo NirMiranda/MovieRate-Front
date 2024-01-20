@@ -37,5 +37,8 @@
     display: grid;
 }
 .reviewsTitle{
-    color:#1A1A1A
+    color: black;
+}
+.addReview{
+    margin-bottom: 20px;
 }
