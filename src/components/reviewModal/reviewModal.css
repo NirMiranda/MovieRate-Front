@@ -1,0 +1,32 @@
+.dialogContent{
+    min-width: 300px;
+    max-width: 500px;
+    min-height: 200px;
+}
+.modalTop{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.reviewerName{
+    display: flex;
+}
+.reviewScore{
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+.reviewDate{
+    display: flex;
+    justify-content: flex-start;
+}
+.reviewText{
+    width: 100%;
+    min-height: 150px;
+    max-height: 250px;
+    overflow: auto  ;
+}
+.reviewImage{
+    margin-top: 10px;
+}

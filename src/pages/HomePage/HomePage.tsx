@@ -3,7 +3,7 @@ import './assets/css/baguetteBox.min.css';
 import './assets/fonts/font-awesome.min.css';
 import Login from '../../components/Login/Login';
 import Register from '../../components/Register/Register';
-import Navbar from '../../components/Register/NavBar/Navbar';
+import Navbar from '../../components/NavBar/Navbar';
 
 import DesignerImage from './assets/img/Designer.png';
 function HomePage() {
