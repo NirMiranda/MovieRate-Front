@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { ReviewType } from "../../components/MovieReviews/movieReviews";
 export type movie = {
   _id?: string,
   movieName: string,
@@ -14,7 +15,7 @@ export type movie = {
   image: string,
   description: string,
   ratingImdb: number,
-  reviews?: string[],
+  reviews?: ReviewType[],
   trailer: string
 }
 

@@ -7,6 +7,9 @@ import MovieLogo from '../../components/movieLogo/MovieLogo';
 import { movie } from '../MoviesPage/MoviesPage';
 import YouTube from 'react-youtube';
 import './MoviePage.css';
+import OtherInfo from '../../components/otherInfo/otherInfo';
+import MovieReviews,{ReviewType} from '../../components/movieReviews/movieReviews';
+
 
 
 
@@ -34,25 +37,30 @@ function MoviePage() {
     fetchMovie();
   }, []);
     return (
+
     <div className="moviePage">
       <div className='movieDetails'>
       <Box marginTop="4rem">
+        <h1 className='movieTitle' style={{textAlign:'center'}}>{movieItem?.movieName}</h1>
         <div className="movieMedia">
         <div className="movieLogo">
         <MovieLogo data={movieItem as movie} />
         </div>
-        <YouTube videoId={movieItem?.trailer} style={{borderRadius:"100px"}} />
+        <YouTube videoId={movieItem?.trailer}/>
         </div>
-        <h1>{movieItem?.movieName}</h1>
-        <p>{movieItem?.description}</p>
-        <p>{movieItem?.year}</p>
-        <p>{movieItem?.genre}</p>
-        <p>{movieItem?.director}</p>
-        <p>{movieItem?.actors}</p>
-        <p>{movieItem?.ratingImdb}</p>
+        <OtherInfo
+            genre={movieItem?.genre}
+            description={movieItem?.description}
+            year={movieItem?.year}
+            director={movieItem?.director}
+            actors={movieItem?.actors}
+            ratingImdb={movieItem?.ratingImdb}
+          />
       </Box>
       </div>
-      <div className='reviews'> 
+      <div className='reviews' style={{justifyContent:'center'}}> 
+         <h1 className='reviewsTitle' style={{textAlign:'center'}}>User Reviews</h1>
+          <MovieReviews reviews={movieItem?.reviews ?? []}/>
 
       </div>
     </div>

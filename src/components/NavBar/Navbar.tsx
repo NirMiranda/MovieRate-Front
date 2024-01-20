@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import WhiteLogo from "./LogoFiles/svg/White logo.svg"
 
 
 function Navbar() {
@@ -7,7 +8,9 @@ function Navbar() {
     <div>
       <nav className="navbar navbar-expand-lg fixed-top navbar-light" id="mainNav" style={{ backgroundColor: '#222222' }}>
         <div className="container">
-          <a className="navbar-brand" href="#page-top">MOVIES</a>
+          <NavLink className="nav-link" to="/">
+            <img src={WhiteLogo} alt="Logo" style={{ maxHeight: '50px', marginRight: '10px' }} />
+          </NavLink>
           <button
             data-bs-toggle="collapse"
             data-bs-target="#navbarResponsive"
@@ -30,6 +33,9 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/Movies">Explore</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/Upcoming">Upcoming</NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/">Home</NavLink>
