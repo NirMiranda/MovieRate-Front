@@ -5,6 +5,12 @@
   "hints": {
     "axe/forms": "off",
     "no-inline-styles": "off",
-    "typescript-config/is-valid": "off"
+    "typescript-config/is-valid": "off",
+    "axe/text-alternatives": [
+      "default",
+      {
+        "image-alt": "off"
+      }
+    ]
   }
 }
