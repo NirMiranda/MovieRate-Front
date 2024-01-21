@@ -53,7 +53,7 @@ function Movies() {
     try {
       const { data } = await axios.get("http://localhost:3003/movie/getAllMovies");
       setMovies(data);
-      const sortedMovies = data.sort((a: { year: number; }, b: { year: number; }) => a.year - b.year);
+      const sortedMovies = data.sort((a: { year: number; }, b: { year: number; }) => b.year - a.year);
       const uniqueYears = Array.from(new Set(sortedMovies.map((movie: movie) => movie.year)));
       const uniqueDirectors = Array.from(new Set(sortedMovies.map((movie: movie) => movie.director))).sort();
       const uniqueGenres = Array.from(new Set(sortedMovies.map((movie: movie) => movie.genre))).sort();
@@ -158,7 +158,6 @@ function Movies() {
                   <img
                     className="imgcarosel"
                     src={movie.image}
-
                     alt={`Movie: ${movie.movieName}`}
                   />
                   <Carousel.Caption className="carouselCaption">
