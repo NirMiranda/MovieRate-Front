@@ -1,0 +1,85 @@
+.lastMoviesh2 {
+    color: 'white';
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: 2%;
+}
+
+.lastdivcarosel {
+    color: 'white';
+    width: 100%;
+    height: 300px;
+}
+
+.carouselItem {
+    height: 300px;
+    width: 100%;
+}
+
+.imgcarosel {
+    height: 300px;
+    width: 100%;
+}
+
+.newestmovies {
+    margin-right: 2%;
+    margin-left: 2%;
+}
+
+h2 {
+    color: 'white';
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: 2%;
+}
+
+.top-ten {
+    margin-top: -150px;
+}
+
+.slidertopten {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
+.card {
+    background-color: rgb(25, 25, 25);
+    border-color: rgb(25, 25, 25);
+}
+
+.card-img {
+    height: 300px;
+    width: 100%;
+}
+
+.card-caption {
+    color: white;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: -70px;
+}
+
+.all-movies {
+    margin-top: -150px;
+}
+
+.dropDowns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    margin-left: -10px;
+}
+
+.Cards {
+    padding-left: 30px;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    grid-column-start: auto;
+}
