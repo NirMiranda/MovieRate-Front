@@ -41,7 +41,7 @@ function Upcoming() {
 
   return (
     <div className="upcoming-container">
-      <h1 className="upcoming-heading">Last year releases Movies</h1>
+      <h1 className="upcoming-heading">Last Releases Movies</h1>
       {Object.keys(upcomingMovies).map((group) => (
         <div className='groupDiv' key={group}>
           <h2 className="group-heading"><strong>{group}</strong></h2>
