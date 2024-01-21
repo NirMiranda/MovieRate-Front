@@ -190,7 +190,7 @@ function Movies() {
       <section className="all-movies">
         <h2>All movies :</h2>
         <div className="dropDowns">
-          <Dropdown style={{ marginRight: '5px' }}>
+          <Dropdown style={{ marginRight: '15px' }}>
             <Dropdown.Toggle id="dropdown-year">
               {selectedYear !== null ? `Year: ${selectedYear}` : "Select Year"}
             </Dropdown.Toggle>
@@ -204,7 +204,7 @@ function Movies() {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Dropdown style={{ marginRight: '5px' }}>
+          <Dropdown style={{ marginRight: '15px' }}>
             <Dropdown.Toggle id="dropdown-director">
               {selectedDirector !== null ? `Director: ${selectedDirector}` : "Select Director"}
             </Dropdown.Toggle>
@@ -218,7 +218,7 @@ function Movies() {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Dropdown style={{ marginRight: '5px' }}>
+          <Dropdown style={{ marginRight: '15px' }}>
             <Dropdown.Toggle id="dropdown-genre">
               {selectedGenre !== null ? `Genre: ${selectedGenre}` : "Select Genre"}
             </Dropdown.Toggle>
@@ -232,7 +232,7 @@ function Movies() {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Dropdown style={{ marginRight: '5px' }}>
+          <Dropdown style={{ marginRight: '50px' }}>
             <Dropdown.Toggle id="dropdown-rating">
               {selectedRating !== null ? `IMDb Rate: ${selectedRating}` : "Select IMDb Rate"}
             </Dropdown.Toggle>
