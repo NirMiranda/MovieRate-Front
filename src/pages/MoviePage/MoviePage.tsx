@@ -8,7 +8,7 @@ import { movie } from '../MoviesPage/MoviesPage';
 import YouTube from 'react-youtube';
 import './MoviePage.css';
 import OtherInfo from '../../components/otherInfo/otherInfo';
-import MovieReviews,{ReviewType} from '../../components/movieReviews/movieReviews';
+import MovieReviews, { ReviewType } from '../../components/movieReviews/movieReviews';
 import AddReviewModal from '../../components/addReviewModal/addReviewModal';
 
 
@@ -47,22 +47,22 @@ function MoviePage() {
   };
 
   useEffect(() => {
-    
+
     fetchMovie();
   }, []);
-    return (
+  return (
 
     <div className="moviePage">
       <div className='movieDetails'>
-      <Box marginTop="4rem">
-        <h1 className='movieTitle' style={{textAlign:'center'}}>{movieItem?.movieName}</h1>
-        <div className="movieMedia">
-        <div className="movieLogo">
-        <MovieLogo data={movieItem as movie} />
-        </div>
-        <YouTube videoId={movieItem?.trailer}/>
-        </div>
-        <OtherInfo
+        <Box marginTop="4rem">
+          <h1 className='movieTitle' style={{ textAlign: 'center' }}>{movieItem?.movieName}</h1>
+          <div className="movieMedia">
+            <div className="movieLogo">
+              <MovieLogo data={movieItem as movie} />
+            </div>
+            <YouTube videoId={movieItem?.trailer} />
+          </div>
+          <OtherInfo
             genre={movieItem?.genre}
             description={movieItem?.description}
             year={movieItem?.year}
@@ -70,7 +70,7 @@ function MoviePage() {
             actors={movieItem?.actors}
             ratingImdb={movieItem?.ratingImdb}
           />
-      </Box>
+        </Box>
       </div>
       <div className='reviews' style={{ justifyContent: 'center' }}>
         <h1 className='reviewsTitle' style={{ textAlign: 'center', marginTop: '20px' }}>Users Thoughts</h1>
@@ -82,13 +82,13 @@ function MoviePage() {
         </div>
       </div>
       <AddReviewModal
-      open={isAddReviewModalOpen}
-      handleClose={() => setAddReviewModalOpen(false)}
-      movieItem={movieItem}
-      refetchMovie={refetchMovie}
-    />
-      </div>
-      );
+        open={isAddReviewModalOpen}
+        handleClose={() => setAddReviewModalOpen(false)}
+        movieItem={movieItem}
+        refetchMovie={refetchMovie}
+      />
+    </div>
+  );
 }
 
 
