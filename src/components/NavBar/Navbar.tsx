@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import WhiteLogo from "./LogoFiles/svg/White logo.svg"
+import Login from "../Login/Login"
+import Register from "../Register/Register";
 
 
 function Navbar() {
@@ -38,7 +40,10 @@ function Navbar() {
                 <NavLink className="nav-link" to="/Upcoming">Upcoming</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/">Home</NavLink>
+              <Login />
+              </li>
+              <li className="nav-item">
+              <Register />
               </li>
             </ul>
           </div>
