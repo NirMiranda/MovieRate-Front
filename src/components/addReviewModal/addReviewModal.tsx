@@ -23,7 +23,7 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ open, handleClose, movi
         try {
             const newReview: ReviewType = {
                 date: new Date(),
-                reviewerId: '65a92dff5f374a143e6f7e6d', // You need to replace this with the actual user ID
+                reviewerId: '65ac03272cc794bfa6e2bcc2', // You need to replace this with the actual user ID
                 movieId: movieItem?._id || '', // You need to replace this with the actual movie ID
                 rating: rating,
                 image: image,
