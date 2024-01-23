@@ -68,7 +68,6 @@ function Register() {
                             {validationError}
                         </Alert>
                     )}
-
                     <form onSubmit={handleFormSubmit}>
                         <h3>Hello, please register</h3>
                         <div className="mb-3">

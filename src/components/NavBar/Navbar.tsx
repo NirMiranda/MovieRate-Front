@@ -2,7 +2,10 @@ import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import WhiteLogo from "./LogoFiles/svg/White logo.svg"
 import Login from "../Login/Login"
-import Register from "../Register/Register";
+import Register from "../Register/Register"
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircle';
+
 
 
 function Navbar() {
@@ -40,10 +43,10 @@ function Navbar() {
                 <NavLink className="nav-link" to="/Upcoming">Upcoming</NavLink>
               </li>
               <li className="nav-item">
-              <Login />
+              <AccountCircleOutlinedIcon/>
               </li>
               <li className="nav-item">
-              <Register />
+              <AccountCircleIcon />
               </li>
             </ul>
           </div>
