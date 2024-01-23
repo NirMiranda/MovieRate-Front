@@ -47,6 +47,7 @@ function fixDate(date: Date) {
 }
 
 function MovieReviews({ reviews }: MovieReviewsProps) {
+  console.log(reviews);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const reviewsPerPage = REVIEWS_PER_ROW * MAX_ROWS;
@@ -77,8 +78,6 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
   };
 
   const selectedReview = reviews.find((review) => review._id === selectedReviewId) || null;
-  console.log(paginatedReviews);
-
   return (
     <div className='reviewsBox'>
       <div className='reviewItems'>

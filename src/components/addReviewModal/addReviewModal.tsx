@@ -21,27 +21,45 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ open, handleClose, movi
 
     const handleReviewSubmit = async () => {
         try {
+            const storedUser = localStorage.getItem('user');
+            let userId = '';
+            let user;
+    
+            if (storedUser) {
+                user = JSON.parse(storedUser);
+                userId = user?._id || '';
+            }
+    
             const newReview: ReviewType = {
                 date: new Date(),
-                reviewerId: '65b001da7a78e66d488d3023', // You need to replace this with the actual user ID
-                movieId: movieItem?._id || '', // You need to replace this with the actual movie ID
+                reviewerId: userId,
+                movieId: movieItem?._id || '',
                 rating: rating,
                 image: image,
                 text: reviewText,
             };
     
             // Make an AJAX request to your backend server
-            await axios.post('http://localhost:3003/review/addReview', newReview, {
+            const response = await axios.post('http://localhost:3003/review/addReview', newReview, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
+    
+            const updatedReview = response.data;
+
+            // Update the user object in local storage with the new review
+            if (userId) {
+                const updatedUser = { ...user, reviews: [...user.reviews, updatedReview] };
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+            }
+    
             refetchMovie();
     
             // After successfully submitting the review, you can update the MovieReviews component
             // Reset the form or close the modal after submitting the review
             handleClose();
-
+    
         } catch (error) {
             console.error('Error submitting review:', error);
             // Handle error (e.g., show an error message to the user)

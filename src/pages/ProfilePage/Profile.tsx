@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import ReviewTable from '../../components/Profile/ReviewTable';
+import MovieReviews,{ReviewType} from '../../components/MovieReviews/movieReviews';
 
 interface UserType {
     _id: string;
@@ -9,7 +9,7 @@ interface UserType {
     email: string;
     age: number;
     password: string;
-    // Add other properties as needed
+    reviews: ReviewType[];
 }
 
 const ProfileContainer = styled.div`
@@ -76,11 +76,12 @@ function Profile() {
                 });
 
                 setUser(response.data.user);
+                console.log('User Reviews:', response.data.user.reviews);
             } catch (error) {
                 console.log('Failed to fetch user details:', error);
             }
         };
-
+        
         fetchUserDetails();
     }, []);
 
@@ -106,7 +107,6 @@ function Profile() {
             [e.target.name]: e.target.value,
         }));
     };
-
     return (
         <ProfileContainer>
             <Card>
@@ -137,8 +137,7 @@ function Profile() {
                     <Button onClick={() => setIsEditMode(true)}>Update</Button>
                 )}
             </Card>
-
-            <ReviewTable />
+            <MovieReviews reviews={user?.reviews ?? []} />
         </ProfileContainer>
     );
 }
