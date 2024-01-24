@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import MovieReviews,{ReviewType} from '../../components/MovieReviews/movieReviews';
+import MovieReviews, { ReviewType } from '../../components/MovieReviews/movieReviews';
 
 interface UserType {
     _id: string;
@@ -15,7 +15,7 @@ interface UserType {
 const ProfileContainer = styled.div`
     text-align: center;
     display: flex;
-    flex-direction: column; /* Adjusted flex-direction */
+    flex-direction: column;
     align-items: center;
     padding: 20px;
 `;
@@ -52,12 +52,13 @@ const Button = styled.button`
     font-size: 12px;
     border-radius: 50%;
     font-family: 'Gill Sans', sans-serif;
-    margin-top: 10px; /* Added margin-top */
+    margin-top: 10px;
 `;
 
 function Profile() {
     const [user, setUser] = useState<UserType | null>(null);
     const [isEditMode, setIsEditMode] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -80,32 +81,63 @@ function Profile() {
                 console.log('Failed to fetch user details:', error);
             }
         };
-        
+
         fetchUserDetails();
     }, []);
 
     const handleUpdateButton = async () => {
         try {
+            // Convert the "Name" field to a string before sending the request
+            const updatedUser = {
+                ...user,
+                name: String(user?.name),
+            };
+
+            // Additional check for space character in the name
+            if (updatedUser.name.trim() === '') {
+                setErrorMessage('The name must contain letters');
+                return;
+            }
+
+            // Conditionally update the password
+            if (user?.password !== undefined) {
+                updatedUser.password = user.password.trim(); // Trim whitespace from the password
+            } else {
+                // If the password field is empty or undefined, remove it from the request
+                delete updatedUser.password;
+            }
+
             // Send Axios request to update user details
-            const response = await axios.put(`http://localhost:3003/user/${user?._id}`, user);
+            const response = await axios.put(`http://localhost:3003/user/${user?._id}`, updatedUser);
 
             if (response.status === 200) {
                 console.log('User updated successfully');
-                // Optionally, you can update the local state with the new details
                 setIsEditMode(false);
+                setErrorMessage(null); // Clear any previous error message
             }
         } catch (error) {
             console.error('Failed to update user:', error);
+
+            // Check for specific error messages
+            if (error.response?.data?.error.includes('fails to match the required pattern: /^[a-zA-Z\\s]+$/')) {
+                setErrorMessage('The name must be in characters');
+            } else {
+                setErrorMessage(error.response?.data?.error || 'Failed to update user');
+            }
         }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
         // Update the state when the input values change
         setUser((prevUser) => ({
             ...(prevUser as UserType),
-            [e.target.name]: e.target.value,
+            [name]: value,
         }));
+        setErrorMessage(null); // Clear the error message when the user edits the input
     };
+
     return (
         <ProfileContainer>
             <Card>
@@ -114,22 +146,41 @@ function Profile() {
                     <>
                         <CardImage src="https://img.icons8.com/plasticine/2x/test-account.png" alt={user.name} />
                         <Title>
-                           Name: {isEditMode ? (
+                            Name:{' '}
+                            {isEditMode ? (
                                 <input type="text" name="name" value={user.name} onChange={handleChange} />
                             ) : (
                                 user.name
                             )}
                         </Title>
                         <p>
-                            Email: {isEditMode ? <input type="text" name="email" value={user.email} onChange={handleChange} /> : user.email}
+                            Email:{' '}
+                            {isEditMode ? (
+                                <input type="text" name="email" value={user.email} onChange={handleChange} />
+                            ) : (
+                                user.email
+                            )}
                         </p>
-                        <p> Age: {isEditMode ? <input type="number" name="age" value={user.age} onChange={handleChange} /> : `Age: ${user.age}`}</p>
                         <p>
-                            Password: {isEditMode ? <input type="password" name="password" value={user.password} onChange={handleChange} /> : '*******'}
+                            Age:{' '}
+                            {isEditMode ? (
+                                <input type="number" name="age" value={user.age} onChange={handleChange} />
+                            ) : (
+                                `${user.age}`
+                            )}
+                        </p>
+                        <p>
+                            Password:{' '}
+                            {isEditMode ? (
+                                <input type="password" name="password" value={user.password} onChange={handleChange} />
+                            ) : (
+                                '*******'
+                            )}
                         </p>
                         {/* Add other user details as needed */}
                     </>
                 )}
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 {isEditMode ? (
                     <Button onClick={handleUpdateButton}>Save</Button>
                 ) : (

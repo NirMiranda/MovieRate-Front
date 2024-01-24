@@ -1,7 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import { Modal, Alert } from 'react-bootstrap';
 import axios from 'axios';
-import './Register.css'
+import './Register.css';
 
 function Register() {
     const [showModal, setShowModal] = useState(false);
@@ -23,16 +23,44 @@ function Register() {
         const age = (document.getElementById('age') as HTMLInputElement).value;
 
         try {
-            const response = await axios.post<{ data: string }>('http://localhost:3003/auth/register', {
+            // Check if age is within the valid range
+            const ageValue = parseInt(age, 10);
+            if (ageValue < 6 || ageValue > 120) {
+                setValidationError('Age must be between 6 and 120.');
+                return;
+            }
+
+            // Registration request
+            const registrationResponse = await axios.post<{ data: string }>('http://localhost:3003/auth/register', {
                 name,
                 email,
                 password,
                 age
             });
 
-            console.log('Registered successfully:', response.data.data);
+            console.log('Registered successfully:', registrationResponse.data.data);
+
+            const newUser = {
+                name,
+                email,
+                age,
+            };
+
+            localStorage.setItem('user', JSON.stringify(newUser));
 
             setValidationError('Registration successful!');
+
+            // Login request after successful registration
+            const loginResponse = await axios.post('http://localhost:3003/auth/login', {
+                email,
+                password,
+            });
+
+            const { accessToken, refreshToken, user } = loginResponse.data;
+
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('user', JSON.stringify(user));
 
             // Close the modal after a delay (you can adjust the delay as needed)
             setTimeout(() => {
@@ -42,7 +70,12 @@ function Register() {
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
                 if (error.response && error.response.data && error.response.data.error) {
-                    setValidationError(error.response.data.error);
+                    // Check if the error is related to the "name" validation pattern
+                    if (error.response.data.error.includes('fails to match the required pattern: /^[a-zA-Z\\s]+$/')) {
+                        setValidationError('The name must consist of letters only.');
+                    } else {
+                        setValidationError(error.response.data.error);
+                    }
                 } else {
                     console.error('Registration failed:', error.message);
                 }
@@ -64,7 +97,7 @@ function Register() {
                 </Modal.Header>
                 <Modal.Body>
                     {validationError && (
-                        <Alert variant="success" onClose={() => setValidationError(null)} dismissible>
+                        <Alert variant="danger" onClose={() => setValidationError(null)} dismissible>
                             {validationError}
                         </Alert>
                     )}
