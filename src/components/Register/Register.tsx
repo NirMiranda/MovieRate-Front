@@ -2,10 +2,12 @@ import React, { useState, FormEvent } from 'react';
 import { Modal, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import './Register.css';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [showModal, setShowModal] = useState(false);
     const [validationError, setValidationError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const handleShow = () => {
         setShowModal(true);
@@ -61,12 +63,14 @@ function Register() {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('user', JSON.stringify(user));
+           
 
             // Close the modal after a delay (you can adjust the delay as needed)
             setTimeout(() => {
                 handleClose();
                 setValidationError(null); // Clear the success message
             }, 2000); // Example: Close after 2 seconds
+            navigate('/Movies');
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
                 if (error.response && error.response.data && error.response.data.error) {
