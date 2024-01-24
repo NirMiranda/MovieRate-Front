@@ -28,6 +28,7 @@ function Login() {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('user', JSON.stringify(user));
+            window.location.href = '/Profile';
 
             handleClose();
         } catch (error) {
@@ -36,11 +37,12 @@ function Login() {
     };
 
     return (
-        <>
-            <button type="button" onClick={handleRegisterClick} className="btn btn-primary">
+        <>  
+            <div style={{display:'flex',justifyContent:'center',marginBottom:'-5px'}}>
+            <button type="button" onClick={handleRegisterClick} className="loginBtn" style={{marginRight:'0px'}} >
                 Login
             </button>
-
+            </div>
             <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Login</Modal.Title>

@@ -54,7 +54,7 @@ function Register() {
 
     return (
         <>
-            <button type="button" onClick={handleShow} className="btn btn-primary">
+            <button type="button" onClick={handleShow} className="registerBtn" style={{marginRight:'0px'}}>
                 Register
             </button>
 

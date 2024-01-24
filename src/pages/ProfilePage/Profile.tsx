@@ -76,7 +76,6 @@ function Profile() {
                 });
 
                 setUser(response.data.user);
-                console.log('User Reviews:', response.data.user.reviews);
             } catch (error) {
                 console.log('Failed to fetch user details:', error);
             }

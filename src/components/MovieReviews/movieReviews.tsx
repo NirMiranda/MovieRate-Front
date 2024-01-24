@@ -47,7 +47,6 @@ function fixDate(date: Date) {
 }
 
 function MovieReviews({ reviews }: MovieReviewsProps) {
-  console.log(reviews);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const reviewsPerPage = REVIEWS_PER_ROW * MAX_ROWS;
