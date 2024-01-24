@@ -85,6 +85,14 @@
   z-index: 1;
   cursor: default;
 }
+.editDeleteButtons{
+  position: absolute;
+  top: 80%;
+  left: 58%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  cursor: default;
+}
 
 .expandText:hover {
   cursor: pointer;
