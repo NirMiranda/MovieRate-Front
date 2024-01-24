@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import MovieReviews, { ReviewType } from '../../components/MovieReviews/movieReviews';
@@ -18,11 +18,12 @@ const ProfileContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    background-color:black;
 `;
 
 const Card = styled.div`
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 300px;
+    max-width: 200px;
     text-align: center;
     font-family: arial;
     margin: 10px;
@@ -33,6 +34,7 @@ const CardImage = styled.img`
     max-width: 200px;
     filter: grayscale(0%) brightness(100%) contrast(100%) sepia(0%);
     margin-top: 20px;
+    border-radius: 50%;
 `;
 
 const Title = styled.h1`
@@ -55,10 +57,16 @@ const Button = styled.button`
     margin-top: 10px;
 `;
 
+const GenderSelector = styled.select`
+    margin-top: 10px;
+    padding: 5px;
+`;
+
 function Profile() {
     const [user, setUser] = useState<UserType | null>(null);
     const [isEditMode, setIsEditMode] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [selectedGender, setSelectedGender] = useState<string>('default');
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -138,13 +146,34 @@ function Profile() {
         setErrorMessage(null); // Clear the error message when the user edits the input
     };
 
+    const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedGender(e.target.value);
+    };
+
     return (
         <ProfileContainer>
             <Card>
                 {/* Display user details */}
                 {user && (
                     <>
-                        <CardImage src="https://img.icons8.com/plasticine/2x/test-account.png" alt={user.name} />
+                        {/* Gender Selector */}
+                        <h2>  Gender</h2>
+                        <GenderSelector value={selectedGender} onChange={handleGenderChange}>
+                            <option value="default">both</option>
+                            <option value="woman">Woman</option>
+                            <option value="man">Man</option>
+                        </GenderSelector>
+
+                        <CardImage
+                            src={
+                                selectedGender === 'woman'
+                                    ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_people_person_profile_user_woman_icon_123357.png'
+                                    : selectedGender === 'man'
+                                    ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_nurse_people_person_profile_user_icon_123369.png'
+                                    : 'https://img.icons8.com/plasticine/2x/test-account.png'
+                            }
+                            alt={user.name}
+                        />
                         <Title>
                             Name:{' '}
                             {isEditMode ? (
@@ -187,6 +216,7 @@ function Profile() {
                     <Button onClick={() => setIsEditMode(true)}>Update</Button>
                 )}
             </Card>
+
             <MovieReviews reviews={user?.reviews ?? []} />
         </ProfileContainer>
     );
