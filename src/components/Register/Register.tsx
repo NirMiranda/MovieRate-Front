@@ -64,13 +64,14 @@ function Register() {
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('user', JSON.stringify(user));
            
+            navigate('/Movies');
 
             // Close the modal after a delay (you can adjust the delay as needed)
             setTimeout(() => {
                 handleClose();
                 setValidationError(null); // Clear the success message
             }, 2000); // Example: Close after 2 seconds
-            navigate('/Movies');
+            
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
                 if (error.response && error.response.data && error.response.data.error) {
