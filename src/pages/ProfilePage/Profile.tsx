@@ -10,6 +10,7 @@ interface UserType {
     age: number;
     password: string;
     reviews: ReviewType[];
+    photo:string;
 }
 
 const ProfileContainer = styled.div`
@@ -157,23 +158,26 @@ function Profile() {
                 {user && (
                     <>
                         {/* Gender Selector */}
-                        <h2>  Gender</h2>
+                        <h2>Gender</h2>
                         <GenderSelector value={selectedGender} onChange={handleGenderChange}>
                             <option value="default">both</option>
                             <option value="woman">Woman</option>
                             <option value="man">Man</option>
+                            <option value="myimage" >my image</option>
                         </GenderSelector>
 
                         <CardImage
-                            src={
-                                selectedGender === 'woman'
-                                    ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_people_person_profile_user_woman_icon_123357.png'
-                                    : selectedGender === 'man'
-                                    ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_nurse_people_person_profile_user_icon_123369.png'
-                                    : 'https://img.icons8.com/plasticine/2x/test-account.png'
-                            }
-                            alt={user.name}
-                        />
+             src={
+             selectedGender === 'woman'
+            ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_people_person_profile_user_woman_icon_123357.png'
+            : selectedGender === 'myimage'
+            ? user?.photo // Use user.photo if available, otherwise a default image
+            : selectedGender === 'man'
+            ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_nurse_people_person_profile_user_icon_123369.png'
+            : 'https://img.icons8.com/plasticine/2x/test-account.png'
+           }
+           alt={user?.name}
+/>
                         <Title>
                             Name:{' '}
                             {isEditMode ? (
