@@ -258,7 +258,6 @@ function Movies() {
         </div>
       </section>
       <div>
-        <Socket />
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import MoviePage from './pages/MoviePage/MoviePage';
 import ProfilePage from './pages/ProfilePage/Profile';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
+import Socket from './components/socket/socket';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path='/Upcoming' element={<Upcoming />} />
           </Routes>
         </div>
+        <Socket />
         <SiteFooter />
       </div>
     </Router>
