@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Carousel, Dropdown } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import './MoviesPage.css';
+import Socket from "../../components/socket/socket";
 
 export type movie = {
   _id?: string,
@@ -256,6 +257,9 @@ function Movies() {
           ))}
         </div>
       </section>
+      <div>
+        <Socket />
+      </div>
     </div>
   );
 }
