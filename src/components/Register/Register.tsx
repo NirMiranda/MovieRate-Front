@@ -2,10 +2,13 @@ import React, { useState, FormEvent } from 'react';
 import { Modal, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import './Register.css';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [showModal, setShowModal] = useState(false);
     const [validationError, setValidationError] = useState<string | null>(null);
+    const [fileUrl, setFileUrl] = useState<string | null>(null); // Add state for file URL
+    const navigate = useNavigate();
 
     const handleShow = () => {
         setShowModal(true);
@@ -35,7 +38,8 @@ function Register() {
                 name,
                 email,
                 password,
-                age
+                age,
+                fileUrl, // Include the file URL in the registration request
             });
 
             console.log('Registered successfully:', registrationResponse.data.data);
@@ -44,6 +48,7 @@ function Register() {
                 name,
                 email,
                 age,
+                
             };
 
             localStorage.setItem('user', JSON.stringify(newUser));
@@ -61,12 +66,15 @@ function Register() {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('user', JSON.stringify(user));
+           
+            navigate('/Movies');
 
             // Close the modal after a delay (you can adjust the delay as needed)
             setTimeout(() => {
                 handleClose();
                 setValidationError(null); // Clear the success message
             }, 2000); // Example: Close after 2 seconds
+            
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
                 if (error.response && error.response.data && error.response.data.error) {
@@ -85,9 +93,26 @@ function Register() {
         }
     };
 
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+    
+            try {
+                // Update the base URL to your backend port (3003)
+                const uploadResponse = await axios.post<{ url: string }>('http://localhost:3003/file', formData);
+                setFileUrl(uploadResponse.data.url);
+            } catch (uploadError) {
+                console.error('File upload failed:', uploadError);
+                setFileUrl(null);
+            }
+        }
+    };
+
     return (
         <>
-            <button type="button" onClick={handleShow} className="registerBtn" style={{marginRight:'0px'}}>
+            <button type="button" onClick={handleShow} className="registerBtn" style={{ marginRight: '0px' }}>
                 Register
             </button>
 
@@ -134,6 +159,15 @@ function Register() {
                             </label>
                             <input type="number" className="form-control" id="age" min={0} max={120} />
                         </div>
+                        
+                        {/* Input for uploading a file */}
+                        <div className="mb-3">
+                            <label htmlFor="file" className="form-label">
+                                Profile Photo
+                            </label>
+                            <input type="file" className="form-control" id="file" accept="image/*" onChange={handleFileChange} />
+                        </div>
+                        
                         <button type="submit" className="btn btn-dark">
                             Register
                         </button>
