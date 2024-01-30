@@ -8,7 +8,6 @@ interface OtherInfoProps {
   year?: number;
   director?: string;
   actors?: string[];
-  ratingImdb?: number;
 }
 
 const OtherInfo: React.FC<OtherInfoProps> = ({
@@ -17,7 +16,6 @@ const OtherInfo: React.FC<OtherInfoProps> = ({
   year,
   director,
   actors,
-  ratingImdb,
 }) => {
   return (
     <div style={{ textAlign: 'center' }}>
@@ -25,7 +23,6 @@ const OtherInfo: React.FC<OtherInfoProps> = ({
         <Chip label="Plot" style={{ color: 'white' }} /><Chip label={description} variant="outlined" style={{ color: 'LightGray' }} />
       </Stack>
       <Stack direction="row" spacing={1} style={{ justifyContent: 'center', margin: '10px 0 10px 0' }}>
-        <Chip label="IMDB Rating" style={{ color: 'white' }} /><Chip label={ratingImdb} variant="outlined" style={{ color: 'LightGray' }} />
         <Chip label="Genre" style={{ color: 'white' }} /><Chip label={genre} variant="outlined" style={{ color: 'LightGray' }} />
         <Chip label="Year" style={{ color: 'white' }} /><Chip label={year} variant="outlined" style={{ color: 'LightGray' }} />
       </Stack>

@@ -42,3 +42,15 @@
 .addReview{
     margin-bottom: 20px;
 }
+.uploaderPhoto{
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+}
+.uploader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}

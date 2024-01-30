@@ -10,6 +10,7 @@ import './MoviePage.css';
 import OtherInfo from '../../components/otherInfo/otherInfo';
 import MovieReviews, { ReviewType } from '../../components/movieReviews/movieReviews';
 import AddReviewModal from '../../components/addReviewModal/addReviewModal';
+import { UserType } from '../ProfilePage/Profile';
 
 
 
@@ -50,11 +51,27 @@ function MoviePage() {
 
     fetchMovie();
   }, []);
+  console.log(movieItem);
   return (
 
     <div className="moviePage">
       <div className='movieDetails'>
         <Box marginTop="4rem">
+          <div className='uploader'>
+        <h1 className='movieTitle' style={{ textAlign: 'center',marginBottom:'15px' }}>
+            Uploaded By: {movieItem?.uploadedBy && movieItem?.uploadedBy.email}
+          </h1>
+          <div className='uploaderPhoto'>
+          {movieItem?.uploadedBy && movieItem?.uploadedBy.photo && (
+              <img
+                src={movieItem.uploadedBy.photo}
+                alt={`Profile of ${movieItem.uploadedBy.email}`}
+                style={{ width: '100px', height: '100px', borderRadius: '50%',marginLeft:'10px' }}
+              />
+            )}
+            </div>
+          </div>
+
           <h1 className='movieTitle' style={{ textAlign: 'center' }}>{movieItem?.movieName}</h1>
           <div className="movieMedia">
             <div className="movieLogo">
@@ -68,7 +85,6 @@ function MoviePage() {
             year={movieItem?.year}
             director={movieItem?.director}
             actors={movieItem?.actors}
-            ratingImdb={movieItem?.ratingImdb}
           />
         </Box>
       </div>

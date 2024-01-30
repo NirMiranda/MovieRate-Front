@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Carousel, Dropdown } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import './MoviesPage.css';
+import {UserType} from '../ProfilePage/Profile';
 
 export type movie = {
   _id?: string,
@@ -17,9 +18,9 @@ export type movie = {
   genre: string,
   image: string,
   description: string,
-  ratingImdb: number,
   reviews?: string[],
-  trailer: string
+  trailer: string,
+  uploadedBy?: UserType
 }
 
 function Movies() {
@@ -57,7 +58,6 @@ function Movies() {
       const uniqueYears = Array.from(new Set(sortedMovies.map((movie: movie) => movie.year)));
       const uniqueDirectors = Array.from(new Set(sortedMovies.map((movie: movie) => movie.director))).sort();
       const uniqueGenres = Array.from(new Set(sortedMovies.map((movie: movie) => movie.genre))).sort();
-      const uniqueRatings = Array.from(new Set(sortedMovies.map((movie: movie) => movie.ratingImdb))).sort((a, b) => a - b);
       setYears(uniqueYears);
       setDirectors(uniqueDirectors);
       setGenres(uniqueGenres);
@@ -68,7 +68,6 @@ function Movies() {
   const getTop10Movies = async () => {
     try {
       const { data } = await axios.get("http://localhost:3003/movie/getAllMovies");
-      const sortedMovies = data.sort((a: { ratingImdb: number; }, b: { ratingImdb: number; }) => b.ratingImdb - a.ratingImdb);
       const top10Movies = sortedMovies.slice(0, 10);
       setMoviestopten(top10Movies);
     } catch (error) { console.error("Error fetching movies:", error); }
@@ -111,12 +110,6 @@ function Movies() {
     } else { setFilteredMovies(movies); }
   }, [selectedGenre, movies]);
 
-  useEffect(() => {
-    if (selectedRating !== null) {
-      const filtered = movies.filter((movie) => movie.ratingImdb === selectedRating);
-      setFilteredMovies(filtered);
-    } else { setFilteredMovies(movies); }
-  }, [selectedRating, movies]);
 
   const handleYearSelect = (year: number | null) => {
     setSelectedYear(year);
@@ -162,7 +155,7 @@ function Movies() {
                   />
                   <Carousel.Caption className="carouselCaption">
                     <h3 style={{ backgroundColor: 'rgb(43, 39, 48)', borderRadius: '30px' }}>
-                      From: {movie.year} , Imdb rating: {movie.ratingImdb}
+                      From: {movie.year}
                     </h3>
                   </Carousel.Caption>
                 </Carousel.Item>
@@ -179,7 +172,6 @@ function Movies() {
                 <div className="card" key={movie._id}>
                   <img src={movie?.image} className="card-img" alt={`Movie: ${movie.movieName}`} onClick={() => { if (movie._id) handleClick(movie._id); }} />
                   <div className="card-caption">
-                    <h4>Imdb rate: {movie.ratingImdb}</h4>
                     <h4>From: {movie.year}</h4>
                   </div>
                 </div>
@@ -232,19 +224,7 @@ function Movies() {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Dropdown style={{ marginRight: '50px' }}>
-            <Dropdown.Toggle id="dropdown-rating">
-              {selectedRating !== null ? `IMDb Rate: ${selectedRating}` : "Select IMDb Rate"}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {ratings.map((rating) => (
-                <Dropdown.Item key={rating} onClick={() => handleRatingSelect(rating)}>
-                  {rating}
-                </Dropdown.Item>
-              ))}
-              <Dropdown.Item onClick={() => handleRatingSelect(null)}>Clear</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+         
         </div>
         <div className="Cards">
           {filteredMovies.map((movie) => (
