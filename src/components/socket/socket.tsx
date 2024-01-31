@@ -21,35 +21,31 @@ const Socket = () => {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-
-
-        newSocket.on("connect", function () {
-            console.log("Connected to socket.io server");
-        });
+        newSocket.on("connect", function () { console.log("Connected to socket.io server"); });
         // Set the socket in state
         setSocket(newSocket);
         // Retrieve message history from local storage
         const storedMessages = JSON.parse(localStorage.getItem('messageHistory'));
-        console.log("stored messeges", storedMessages);
-        if (storedMessages) {
-            setMessageList(storedMessages);
-        }
+        console.log("stored messages:", storedMessages);
+        // Filter out invalid messages with NaN timestamps
+        const validatedMessages = storedMessages?.filter((message: any) => (
+            typeof message === 'object' && message !== null && !isNaN(new Date(message.timestamp).getTime())
+        ));
+        if (validatedMessages) { setMessageList(validatedMessages); }
         // Clean up the socket connection on component unmount
-        return () => {
-            newSocket.disconnect();
-        };
+        return () => { newSocket.disconnect(); };
     }, []);
-
     useEffect(() => {
-        console.log("my messege list:", messageList);
-        if (messageList.length > 0)
-            // Save message history to local storage whenever it changes
-            localStorage.setItem('messageHistory', JSON.stringify(messageList));
+        console.log("my message list:", messageList);
+        // Save message history to local storage whenever it changes
+        localStorage.setItem('messageHistory', JSON.stringify(messageList));
+
         newSocket.on("message", function (messageData) {
             console.log("Received message:", messageData);
             appendMessage(messageData.message, messageData.timestamp);
         });
     }, [messageList]);
+
 
     const appendMessage = (message: string, timestamp: string) => {
         const newMessageList = [...messageList, { message, timestamp }];
@@ -58,10 +54,12 @@ const Socket = () => {
     };
     const formatTime = (date: string) => {
         const mydate = new Date(date);
-        console.log(mydate)
-        const hours = mydate.getHours();
-        const minutes = mydate.getMinutes();
-        return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+        const year = mydate.getFullYear();
+        const month = ('0' + (mydate.getMonth() + 1)).slice(-2);
+        const day = ('0' + mydate.getDate()).slice(-2);
+        const hours = ('0' + mydate.getHours()).slice(-2);
+        const minutes = ('0' + mydate.getMinutes()).slice(-2);
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
 
     const sendMessage = () => {
@@ -100,6 +98,7 @@ const Socket = () => {
 
     const clearMessages = () => {
         setMessageList([]);
+        localStorage.removeItem('messageHistory');
         setMessageInput("");
         setShowMessages(false);
     };
@@ -115,7 +114,7 @@ const Socket = () => {
                 </Offcanvas.Header>
                 <Offcanvas.Body style={{ marginBottom: "20px" }}>
                     <button className="showmessege" onClick={() => setShowMessages(!showMessages)}>Show Messages</button>
-                    <button className="clearmessages" onClick={clearMessages}>Clear All Messages</button>
+                    <button className="clearmessages" onClick={clearMessages}>Clear Chat From Messages</button>
                     {showMessages && (
                         <div>
                             <ul className="message-list">
@@ -137,6 +136,7 @@ const Socket = () => {
                 </Offcanvas.Body>
             </Offcanvas>
         </div>
+
     );
 };
 
