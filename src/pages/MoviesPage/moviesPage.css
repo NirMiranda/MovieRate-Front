@@ -10,6 +10,7 @@
 .carouselItem {
     height: 300px;
     width: 100%;
+    cursor: pointer;
 }
 
 .imgcarosel {
@@ -69,7 +70,16 @@
 .Cards {
     padding-left: 30px;
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
     grid-column-start: auto;
+    justify-content: center;
+}
+
+.Cards::after {
+    content: '';
+    min-width: 15rem; /* Adjust the min-width to match your card width */
+    max-width: 1fr;
+}
+.Moviecard{
+    margin: 0 auto;
 }

@@ -30,4 +30,7 @@
 .carousel-control-prev {
   width: 5%!important;
 }
+.card{
+  cursor: pointer;
+}
 
