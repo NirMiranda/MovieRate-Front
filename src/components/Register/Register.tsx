@@ -147,10 +147,16 @@ function Register() {
                     console.error('Failed to update fileUrl:', fileError);
                 }
             }
-    
+            const simplifiedUser = {
+                name: user.name,
+                photo: user.photo,
+                email: user.email,
+            };
+            
+            localStorage.setItem('user', JSON.stringify(simplifiedUser));
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('isGoogleSignIn','true');
     
             // Provide feedback to the user
             setValidationError('Google registration successful!');

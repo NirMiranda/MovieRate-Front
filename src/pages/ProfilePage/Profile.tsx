@@ -1,8 +1,10 @@
+// Import statements (similar to your existing imports)
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import MovieReviews, { ReviewType } from '../../components/MovieReviews/movieReviews';
 
+// Interface definition for user details
 interface UserType {
     _id: string;
     name: string;
@@ -10,16 +12,17 @@ interface UserType {
     age: number;
     password: string;
     reviews: ReviewType[];
-    photo:string;
+    photo: string;
 }
 
+// Styled components for styling
 const ProfileContainer = styled.div`
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color:black;
+    background-color: black;
 `;
 
 const Card = styled.div`
@@ -63,12 +66,15 @@ const GenderSelector = styled.select`
     padding: 5px;
 `;
 
+// Main functional component
 function Profile() {
     const [user, setUser] = useState<UserType | null>(null);
     const [isEditMode, setIsEditMode] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [selectedGender, setSelectedGender] = useState<string>('default');
+    const [isGoogleSignIn, setIsGoogleSignIn] = useState<boolean | null>(null);
 
+    // useEffect to fetch user details on component mount
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
@@ -86,6 +92,9 @@ function Profile() {
                 });
 
                 setUser(response.data.user);
+                setIsGoogleSignIn(localStorage.getItem('isGoogleSignIn') === 'true');
+                
+
             } catch (error) {
                 console.log('Failed to fetch user details:', error);
             }
@@ -94,40 +103,35 @@ function Profile() {
         fetchUserDetails();
     }, []);
 
+    // Handler for updating user details
     const handleUpdateButton = async () => {
         try {
-            // Convert the "Name" field to a string before sending the request
             const updatedUser = {
                 ...user,
                 name: String(user?.name),
             };
 
-            // Additional check for space character in the name
             if (updatedUser.name.trim() === '') {
                 setErrorMessage('The name must contain letters');
                 return;
             }
 
-            // Conditionally update the password
             if (user?.password !== undefined) {
-                updatedUser.password = user.password.trim(); // Trim whitespace from the password
+                updatedUser.password = user.password.trim();
             } else {
-                // If the password field is empty or undefined, remove it from the request
                 delete updatedUser.password;
             }
 
-            // Send Axios request to update user details
             const response = await axios.put(`http://localhost:3003/user/${user?._id}`, updatedUser);
 
             if (response.status === 200) {
                 console.log('User updated successfully');
                 setIsEditMode(false);
-                setErrorMessage(null); // Clear any previous error message
+                setErrorMessage(null);
             }
         } catch (error) {
             console.error('Failed to update user:', error);
 
-            // Check for specific error messages
             if (error.response?.data?.error.includes('fails to match the required pattern: /^[a-zA-Z\\s]+$/')) {
                 setErrorMessage('The name must be in characters');
             } else {
@@ -136,48 +140,48 @@ function Profile() {
         }
     };
 
+    // Handler for input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        // Update the state when the input values change
         setUser((prevUser) => ({
             ...(prevUser as UserType),
             [name]: value,
         }));
-        setErrorMessage(null); // Clear the error message when the user edits the input
+        setErrorMessage(null);
     };
 
+    // Handler for gender selection change
     const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedGender(e.target.value);
     };
 
+    // JSX structure
     return (
         <ProfileContainer>
             <Card>
-                {/* Display user details */}
                 {user && (
                     <>
-                        {/* Gender Selector */}
                         <h2>Gender</h2>
                         <GenderSelector value={selectedGender} onChange={handleGenderChange}>
                             <option value="default">both</option>
                             <option value="woman">Woman</option>
                             <option value="man">Man</option>
-                            <option value="myimage" >my image</option>
+                            <option value="myimage">my image</option>
                         </GenderSelector>
-
+    
                         <CardImage
-             src={
-             selectedGender === 'woman'
-            ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_people_person_profile_user_woman_icon_123357.png'
-            : selectedGender === 'myimage'
-            ? user?.photo // Use user.photo if available, otherwise a default image
-            : selectedGender === 'man'
-            ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_nurse_people_person_profile_user_icon_123369.png'
-            : 'https://img.icons8.com/plasticine/2x/test-account.png'
-           }
-           alt={user?.name}
-/>
+                            src={
+                                selectedGender === 'woman'
+                                    ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_people_person_profile_user_woman_icon_123357.png'
+                                    : selectedGender === 'myimage'
+                                    ? user?.photo
+                                    : selectedGender === 'man'
+                                    ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_nurse_people_person_profile_user_icon_123369.png'
+                                    : 'https://img.icons8.com/plasticine/2x/test-account.png'
+                            }
+                            alt={user?.name}
+                        />
                         <Title>
                             Name:{' '}
                             {isEditMode ? (
@@ -188,29 +192,32 @@ function Profile() {
                         </Title>
                         <p>
                             Email:{' '}
-                            {isEditMode ? (
+                            {(isEditMode && !isGoogleSignIn) ? (
                                 <input type="text" name="email" value={user.email} onChange={handleChange} />
                             ) : (
                                 user.email
                             )}
                         </p>
-                        <p>
-                            Age:{' '}
-                            {isEditMode ? (
-                                <input type="number" name="age" value={user.age} onChange={handleChange} />
-                            ) : (
-                                `${user.age}`
-                            )}
-                        </p>
-                        <p>
-                            Password:{' '}
-                            {isEditMode ? (
-                                <input type="password" name="password" value={user.password} onChange={handleChange} />
-                            ) : (
-                                '*******'
-                            )}
-                        </p>
-                        {/* Add other user details as needed */}
+                        {(!isGoogleSignIn || (isEditMode && !isGoogleSignIn)) && (
+                            <>
+                                <p>
+                                    Age:{' '}
+                                    {(isEditMode && !isGoogleSignIn) ? (
+                                        <input type="number" name="age" value={user.age} onChange={handleChange} />
+                                    ) : (
+                                        `${user.age}`
+                                    )}
+                                </p>
+                                <p>
+                                    Password:{' '}
+                                    {(isEditMode && !isGoogleSignIn) ? (
+                                        <input type="password" name="password" value={user.password} onChange={handleChange} />
+                                    ) : (
+                                        '*******'
+                                    )}
+                                </p>
+                            </>
+                        )}
                     </>
                 )}
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
@@ -220,7 +227,7 @@ function Profile() {
                     <Button onClick={() => setIsEditMode(true)}>Update</Button>
                 )}
             </Card>
-
+    
             <MovieReviews reviews={user?.reviews ?? []} />
         </ProfileContainer>
     );
