@@ -7,7 +7,10 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import ReviewModal from '../reviewModal/reviewModal';
 import UnclickableLikeComponent  from '../unclickableLike/unclickableLike';
 import Button from '@mui/material/Button';
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
+import EditModal from '../EditModal/EditModal';
 
 
 export type ReviewType = {
@@ -46,8 +49,13 @@ function fixDate(date: Date) {
   return `${dateString}, ${timeString}`;
 }
 
+interface LocalStorageUser {
+  _id: string;
+}
+
 function MovieReviews({ reviews }: MovieReviewsProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const localStorageUser: LocalStorageUser | null = JSON.parse(localStorage.getItem('user') || 'null');
 
   const reviewsPerPage = REVIEWS_PER_ROW * MAX_ROWS;
   const startIndex = (currentPage - 1) * reviewsPerPage;
@@ -55,11 +63,13 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
   const paginatedReviews = reviews.slice(startIndex, endIndex);
 
   const [hoveredReview, setHoveredReview] = useState<string | null>(null);
+  const [hoveredReview2, setHoveredReview2] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedReviewId, setSelectedReviewId] = useState<string | null>(null);
 
-  const handleMouseEnter = (reviewId: string) => {
+  const handleMouseEnter = (reviewId: string,reviewerId: string) => {
     setHoveredReview(reviewId);
+    setHoveredReview2(reviewerId);
   };
 
   const handleMouseLeave = () => {
@@ -71,11 +81,38 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
     setSelectedReviewId(reviewId);
   };
 
+  const handleDeleteClick = (reviewId: string) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete the review?");
+  
+    if (isConfirmed) {
+      axios.delete(`http://localhost:3003/review/deleteReview/${reviewId}`)
+        .then(() => {
+          window.location.reload();
+        });
+    }
+  }; 
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+
+  const handleEditClick = (reviewId: string) => {
+    setOpenEditModal(true);
+    setSelectedReviewId(reviewId);
+    
+  };
+  const handleEditReview = (editedReview: ReviewType) => {
+    // Make the API call or handle the logic to save the edited review
+    // Update the reviews array with the edited review
+    const updatedReviews = reviews.map((review) =>
+      review._id === editedReview._id ? editedReview : review
+    );
+
+    // Update the state with the new reviews
+    // setReviews(updatedReviews);
+  };
+
   const handleCloseModal = () => {
     setOpenModal(false);
     setSelectedReviewId(null);
   };
-
   const selectedReview = reviews.find((review) => review._id === selectedReviewId) || null;
   return (
     <div className='reviewsBox'>
@@ -84,7 +121,7 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
           <div
             key={review._id}
             className={`ReviewItem`}
-            onMouseEnter={() => handleMouseEnter(review._id)}
+            onMouseEnter={() => handleMouseEnter(review._id,review.reviewerId._id)}
             onMouseLeave={handleMouseLeave}
           >
             <div className={`ContentContainer ${hoveredReview === review._id ? 'blurred' : ''}`}>
@@ -100,6 +137,7 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
                   <div className='reviewBottom'>
                     <div className='reviewDate'>{fixDate(new Date(review.date))}</div>
                     <div className='unclickableLike'><UnclickableLikeComponent likes={review.likes ?? 0}/></div>
+
                   </div>
                 </div>
               </Box>
@@ -110,6 +148,26 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
                 Expand
               </div>
             )}
+            {hoveredReview === review._id && hoveredReview2 === localStorageUser?._id && (
+              <div className='editDeleteButtons '>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={() => handleEditClick(review._id)}
+              >
+                <EditIcon />
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                size="small"
+                onClick={() => handleDeleteClick(review._id)}
+              >
+                <DeleteIcon />
+              </Button>
+            </div>
+              )}
           </div>
         ))}
       </div>
@@ -138,6 +196,12 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
 
       {/* Use the ReviewModal component */}
       <ReviewModal open={openModal} handleClose={handleCloseModal} review={selectedReview} />
+      <EditModal
+        open={openEditModal}
+        handleClose={() => setOpenEditModal(false)}
+        handleEdit={handleEditReview}
+        review={selectedReview}
+      />
     </div>
   );
 }

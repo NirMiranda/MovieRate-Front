@@ -1,17 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Button as MuiButton, TextField, Box, Slider } from '@mui/material'; // Import Material-UI Button
 import axios from 'axios';
 import MovieReviews, { ReviewType } from '../../components/MovieReviews/movieReviews';
+import UploadMovieModal from '../../components/UploadMovie/UploadMovie'
+import UserMovies from '../../components/UserMovies/UserMovies';
+import { movie } from '../MoviesPage/MoviesPage';
 
-interface UserType {
+
+
+
+export interface UserType {
     _id: string;
     name: string;
     email: string;
     age: number;
     password: string;
     reviews: ReviewType[];
+    moviesUploaded: movie[];
     photo: string;
 }
+
+const StyledMuiButton = ({ children, onClick }: { children: React.ReactNode; onClick: () => void }) => (
+    <MuiButton
+        variant="contained"
+        style={{
+            backgroundColor: 'green',
+            color: 'white',
+            borderRadius: '50%',
+            marginTop: '10px',
+            fontSize: '12px',
+        }}
+        onClick={onClick}
+    >
+        {children}
+    </MuiButton>
+);
 
 const ProfileContainer = styled.div`
     text-align: center;
@@ -66,6 +90,7 @@ const GenderSelector = styled.select`
 function Profile() {
     const [user, setUser] = useState<UserType | null>(null);
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isAddMovieModalOpen, setAddMovieModalOpen] = useState(false); // Add this line
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [selectedGender, setSelectedGender] = useState<string>('default');
 
@@ -151,6 +176,10 @@ function Profile() {
         setSelectedGender(e.target.value);
     };
 
+    const handleAddMovieButtonClick = () => {
+        setAddMovieModalOpen(true);
+    };
+
     return (
         <ProfileContainer>
             <Card>
@@ -213,15 +242,27 @@ function Profile() {
                         {/* Add other user details as needed */}
                     </>
                 )}
+
+
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 {isEditMode ? (
                     <Button onClick={handleUpdateButton}>Save</Button>
                 ) : (
                     <Button onClick={() => setIsEditMode(true)}>Update</Button>
                 )}
+                <StyledMuiButton onClick={handleAddMovieButtonClick}>Upload your own movie</StyledMuiButton>
             </Card>
 
+
+            <UploadMovieModal isOpen={isAddMovieModalOpen} onClose={() => setAddMovieModalOpen(false)} />
+
+            <UserMovies userId={user?._id ?? ''} />
+
+            <div style={{ justifyContent: 'center' }}><h2 style={{ textAlign: 'center', marginTop: '20px' }}>User's Reviews</h2></div>
+
+
             <MovieReviews reviews={user?.reviews ?? []} />
+
         </ProfileContainer>
     );
 }

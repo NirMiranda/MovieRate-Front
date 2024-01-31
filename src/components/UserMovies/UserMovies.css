@@ -1,0 +1,33 @@
+.MovieCardContainer {
+  display: flex;
+  gap: 16px; /* Adjust the gap as needed */
+  justify-content: space-between;
+}
+
+.MovieCard {
+  width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer; /* Add this line to change the cursor to a pointer on hover */
+}
+
+
+.MovieCardContent {
+  background-color: rgba(200, 200, 200, 0.6); /* More transparent grey background */
+  padding: 10px;
+  border-radius: 0 0 10px 10px; /* Adjust border-radius for rounder bottom corners */
+}
+
+.MovieCardImage {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-control-next{
+  width: 5%!important;
+  
+}
+.carousel-control-prev {
+  width: 5%!important;
+}
+

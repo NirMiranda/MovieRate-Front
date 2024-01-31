@@ -32,7 +32,7 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg fixed-top navbar-light" id="mainNav" style={{backgroundColor: '#1A1A1A'}}>
+    <nav className="navbar navbar-expand-lg fixed-top navbar-light" id="mainNav" style={{ backgroundColor: '#1A1A1A' }}>
       <div className="container">
         <Link className="nav-link" to="/">
           <img src={WhiteLogo} alt="Logo" style={{ maxHeight: '50px', marginRight: '10px' }} />
@@ -74,7 +74,7 @@ function Navbar() {
                       <Link type='button' className="userProfile" to="/Profile">
                         User Profile
                       </Link>
-                      <div style={{display:'flex',justifyContent:'center',marginTop:'10px'}}>
+                      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
                         <Logout />
                       </div>
                     </div>

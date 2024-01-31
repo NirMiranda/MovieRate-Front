@@ -19,9 +19,6 @@ function Moviecard({ data, style }: MoviecardProps) {
                 style={{ flex: '1', height: '350px', width: '250px', borderColor: 'black', marginLeft: '10px', marginRight: '10px' }}>
                 <img src={data?.image} className="card-img" alt="Movie Poster" style={{ flex: '1', height: '350px', width: '250px' }} />
                 <div className="card-img-overlay">
-                    <p className="movieRate" style={{ position: 'absolute', bottom: '30px' }}>
-                        Imdb Rate: {data?.ratingImdb}
-                    </p>
                     <p className="movieYear" style={{ position: 'absolute', bottom: '0px' }}>
                         From: {data?.year}
                     </p>
