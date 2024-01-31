@@ -3,6 +3,7 @@ import { Modal, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import './Register.css';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 
 function Register() {
     const [showModal, setShowModal] = useState(false);
@@ -110,6 +111,15 @@ function Register() {
         }
     };
 
+    const onGoogleLoginSuccess=(response: any)=>{
+        console.log(response);
+    };
+
+    const onGoogleLoginFailure=()=>{
+        console.log("Google login failed");
+
+    };
+
     return (
         <>
             <button type="button" onClick={handleShow} className="registerBtn" style={{ marginRight: '0px' }}>
@@ -171,6 +181,7 @@ function Register() {
                         <button type="submit" className="btn btn-dark">
                             Register
                         </button>
+                        <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
                     </form>
                 </Modal.Body>
             </Modal>
