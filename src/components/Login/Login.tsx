@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Modal } from 'react-bootstrap';
+import { Modal, Alert } from 'react-bootstrap';
 import './Login.css';
 
 function Login() {
     const [showModal, setShowModal] = useState(false);
+    const [validationError, setValidationError] = useState<string | null>(null);
 
     const handleRegisterClick = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
@@ -30,24 +31,45 @@ function Login() {
             localStorage.setItem('user', JSON.stringify(user));
             window.location.href = '/Profile';
 
-            handleClose();
+            setValidationError(null); // Clear any previous validation errors
+
         } catch (error) {
-            console.log('Login failed:', error);
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    // Handle specific errors based on status code
+                    if (error.response.status === 406) {
+                        setValidationError('Email does not exist or incorrect password.');
+                    } else {
+                        setValidationError('An error occurred during login. Please try again.');
+                    }
+                } else {
+                    console.error('Network error or server is unreachable:', error);
+                    setValidationError('Network error or server is unreachable. Please try again.');
+                }
+            } else {
+                console.error('Unexpected error during login:', error);
+                setValidationError('An unexpected error occurred. Please try again.');
+            }
         }
     };
 
     return (
-        <>  
-            <div style={{display:'flex',justifyContent:'center',marginBottom:'-5px'}}>
-            <button type="button" onClick={handleRegisterClick} className="loginBtn" style={{marginRight:'0px'}} >
-                Login
-            </button>
+        <>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '-5px' }}>
+                <button type="button" onClick={handleRegisterClick} className="loginBtn" style={{ marginRight: '0px' }}>
+                    Login
+                </button>
             </div>
             <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {validationError && (
+                        <Alert variant="danger" onClose={() => setValidationError(null)} dismissible>
+                            {validationError}
+                        </Alert>
+                    )}
                     <form onSubmit={handleFormSubmit}>
                         <h3>Hello, please login</h3>
                         <div className="mb-3">
