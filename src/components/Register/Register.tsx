@@ -8,7 +8,7 @@ import { GoogleLogin } from '@react-oauth/google';
 function Register() {
     const [showModal, setShowModal] = useState(false);
     const [validationError, setValidationError] = useState<string | null>(null);
-    const [fileUrl, setFileUrl] = useState<string | null>(null); // Add state for file URL
+    const [fileUrl, setFileUrl] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleShow = () => {
@@ -27,20 +27,18 @@ function Register() {
         const age = (document.getElementById('age') as HTMLInputElement).value;
 
         try {
-            // Check if age is within the valid range
             const ageValue = parseInt(age, 10);
             if (ageValue < 6 || ageValue > 120) {
                 setValidationError('Age must be between 6 and 120.');
                 return;
             }
 
-            // Registration request
             const registrationResponse = await axios.post<{ data: string }>('http://localhost:3003/auth/register', {
                 name,
                 email,
                 password,
                 age,
-                fileUrl, // Include the file URL in the registration request
+                fileUrl,
             });
 
             console.log('Registered successfully:', registrationResponse.data.data);
@@ -49,14 +47,12 @@ function Register() {
                 name,
                 email,
                 age,
-                
             };
 
             localStorage.setItem('user', JSON.stringify(newUser));
 
             setValidationError('Registration successful!');
 
-            // Login request after successful registration
             const loginResponse = await axios.post('http://localhost:3003/auth/login', {
                 email,
                 password,
@@ -64,22 +60,36 @@ function Register() {
 
             const { accessToken, refreshToken, user } = loginResponse.data;
 
+            if (user.photo) {
+                try {
+                    const fileResponse = await axios.post<{ url: string }>('http://localhost:3003/file', {
+                        file: user.photo,
+                    });
+
+                    const updatedUser = {
+                        ...user,
+                        photo: fileResponse.data.url,
+                    };
+
+                    localStorage.setItem('user', JSON.stringify(updatedUser));
+                } catch (fileError) {
+                    console.error('Failed to update fileUrl:', fileError);
+                }
+            }
+
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('user', JSON.stringify(user));
-           
+
             navigate('/Movies');
 
-            // Close the modal after a delay (you can adjust the delay as needed)
             setTimeout(() => {
                 handleClose();
-                setValidationError(null); // Clear the success message
-            }, 2000); // Example: Close after 2 seconds
-            
+                setValidationError(null);
+            }, 2000);
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
                 if (error.response && error.response.data && error.response.data.error) {
-                    // Check if the error is related to the "name" validation pattern
                     if (error.response.data.error.includes('fails to match the required pattern: /^[a-zA-Z\\s]+$/')) {
                         setValidationError('The name must consist of letters only.');
                     } else {
@@ -99,9 +109,8 @@ function Register() {
         if (file) {
             const formData = new FormData();
             formData.append('file', file);
-    
+
             try {
-                // Update the base URL to your backend port (3003)
                 const uploadResponse = await axios.post<{ url: string }>('http://localhost:3003/file', formData);
                 setFileUrl(uploadResponse.data.url);
             } catch (uploadError) {
@@ -111,13 +120,61 @@ function Register() {
         }
     };
 
-    const onGoogleLoginSuccess=(response: any)=>{
+    const onGoogleLoginSuccess = async (response: any) => {
         console.log(response);
+    
+        const { credential } = response;
+        try {
+            const googleResponse = await axios.post('http://localhost:3003/auth/google', {
+                credential,
+            });
+    
+            const { accessToken, refreshToken, user } = googleResponse.data;
+    
+            if (user.photo) {
+                try {
+                    const fileResponse = await axios.post<{ url: string }>('http://localhost:3003/file', {
+                        file: user.photo,
+                    });
+    
+                    const updatedUser = {
+                        ...user,
+                        photo: fileResponse.data.url,
+                    };
+    
+                    localStorage.setItem('user', JSON.stringify(updatedUser));
+                } catch (fileError) {
+                    console.error('Failed to update fileUrl:', fileError);
+                }
+            }
+    
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('user', JSON.stringify(user));
+    
+            // Provide feedback to the user
+            setValidationError('Google registration successful!');
+    
+            const tokenResponse = await axios.get('http://localhost:3003/user/token', {
+                headers: {
+                    Authorization: `Bearer ${refreshToken}`,
+                },
+            });
+    
+            console.log('User obtained using accessToken:', tokenResponse.data.user);
+    
+            // Optionally, you can navigate to the Movies page or close the modal
+            navigate('/Movies');
+        } catch (error) {
+            console.error('Google registration failed:', error);
+    
+            // Update the UI with an error message (you can add state for this)
+            setValidationError('Google registration failed');
+        }
     };
 
-    const onGoogleLoginFailure=()=>{
-        console.log("Google login failed");
-
+    const onGoogleLoginFailure = () => {
+        console.log('Google login failed');
     };
 
     return (
@@ -169,15 +226,20 @@ function Register() {
                             </label>
                             <input type="number" className="form-control" id="age" min={0} max={120} />
                         </div>
-                        
-                        {/* Input for uploading a file */}
+
                         <div className="mb-3">
                             <label htmlFor="file" className="form-label">
                                 Profile Photo
                             </label>
-                            <input type="file" className="form-control" id="file" accept="image/*" onChange={handleFileChange} />
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                            />
                         </div>
-                        
+
                         <button type="submit" className="btn btn-dark">
                             Register
                         </button>
