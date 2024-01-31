@@ -179,7 +179,7 @@ function Profile() {
     const handleAddMovieButtonClick = () => {
         setAddMovieModalOpen(true);
     };
-
+    
     return (
         <ProfileContainer>
             <Card>
@@ -258,7 +258,7 @@ function Profile() {
 
             <UserMovies userId={user?._id ?? ''} />
 
-            <div style={{justifyContent:'center'}}><h2 style={{ textAlign: 'center', marginTop: '20px' }}>User's Reviews</h2></div>
+            <div style={{justifyContent:'center'}}><h2 style={{ textAlign: 'center', marginTop: '20px' }}>Your Reviews</h2></div>
             
             
             <MovieReviews reviews={user?.reviews ?? []} />

@@ -141,21 +141,24 @@ function Movies() {
 
   return (
     <div className='MoviesPage'>
+      <div className="page" style={{width:'65%',margin:'0 auto'}}>
       <section className="lastmovies">
-        <h2 className="lastMoviesh2"> Last movies :</h2>
+        <h2 className="lastMoviesh2" style={{textAlign:'center'}}> Latest movies</h2>
         <div className="lastdivcarosel">
-          <Carousel className="newestmovies">
+          <Carousel className="newestmovies" interval={99999999999}>
             {newestmovies &&
               newestmovies.map((movie) => (
-                <Carousel.Item className="carouselItem" key={movie._id} onClick={() => { if (movie._id) handleClick(movie._id); }}>
+                <Carousel.Item className="carouselItem" style={{backgroundImage: `url(${movie.image})`,backgroundColor:'grey',backgroundSize:'contain',backgroundBlendMode:'soft-light'}} key={movie._id} onClick={() => { if (movie._id) handleClick(movie._id)}}>
                   <img
                     className="imgcarosel"
                     src={movie.image}
                     alt={`Movie: ${movie.movieName}`}
+                    style={{width:'70%',marginLeft:'15%'}}
                   />
                   <Carousel.Caption className="carouselCaption">
                     <h3 style={{ backgroundColor: 'rgb(43, 39, 48)', borderRadius: '30px' }}>
-                      From: {movie.year}
+                      {movie.movieName} -
+                      From {movie.year}
                     </h3>
                   </Carousel.Caption>
                 </Carousel.Item>
@@ -236,6 +239,7 @@ function Movies() {
           ))}
         </div>
       </section>
+      </div>
     </div>
   );
 }

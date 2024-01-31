@@ -51,7 +51,6 @@ function MoviePage() {
 
     fetchMovie();
   }, []);
-  console.log(movieItem);
   return (
 
     <div className="moviePage">

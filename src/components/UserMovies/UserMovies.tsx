@@ -40,7 +40,7 @@ const UserMovies = ({ userId }: { userId: string }) => {
   
       return (
         <div>
-          <div style={{justifyContent:'center',fontSize:'32px'}}>User's Movies</div>
+          <div style={{justifyContent:'center',fontSize:'32px'}}>Your Movies</div>
           {movies.length === 0 ? (
             <p>You haven't uploaded any movies yet.</p>
           ) : (

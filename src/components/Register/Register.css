@@ -12,3 +12,8 @@
     font-size: 14px; /* Adjusted font size to make it smaller */
     height: 70%;
 }
+
+.modalDialog{
+    margin-top: 450px!important;
+    display: flex;
+}

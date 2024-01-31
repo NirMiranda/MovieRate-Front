@@ -60,7 +60,7 @@ function Login() {
                     Login
                 </button>
             </div>
-            <Modal show={showModal} onHide={handleClose}>
+            <Modal show={showModal} onHide={handleClose} centered={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
@@ -72,7 +72,7 @@ function Login() {
                     )}
                     <form onSubmit={handleFormSubmit}>
                         <h3>Hello, please login</h3>
-                        <div className="mb-3">
+                        <div className="mb-3"  style={{display:'contents'}}>
                             <label htmlFor="exampleInputEmail1" className="form-label">
                                 Email address
                             </label>
@@ -87,7 +87,7 @@ function Login() {
                                 We'll never share your email with anyone else.
                             </div>
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3"  style={{display:'contents'}}>
                             <label htmlFor="exampleInputPassword1" className="form-label">
                                 Password
                             </label>
@@ -98,7 +98,7 @@ function Login() {
                                 name="password"
                             />
                         </div>
-                        <button type="submit" className="btn btn-dark">
+                        <button type="submit" className="btn btn-dark" style={{marginTop:'10px'}}>
                             Submit
                         </button>
                     </form>

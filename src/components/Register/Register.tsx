@@ -116,7 +116,7 @@ function Register() {
                 Register
             </button>
 
-            <Modal show={showModal} onHide={handleClose}>
+            <Modal show={showModal} onHide={handleClose} dialogClassName={"modalDialog"}>
                 <Modal.Header closeButton>
                     <Modal.Title>Register</Modal.Title>
                 </Modal.Header>
@@ -128,7 +128,7 @@ function Register() {
                     )}
                     <form onSubmit={handleFormSubmit}>
                         <h3>Hello, please register</h3>
-                        <div className="mb-3">
+                        <div className="mb-3" style={{display:'contents'}}>
                             <label htmlFor="exampleInputEmail1" className="form-label">
                                 Full name
                             </label>
@@ -147,13 +147,13 @@ function Register() {
                             We'll never share your email with anyone else.
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-3" style={{display:'contents'}}>
                             <label htmlFor="password" className="form-label">
                                 Password
                             </label>
                             <input type="password" className="form-control" id="password" />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3"  style={{display:'contents'}}>
                             <label htmlFor="age" className="form-label">
                                 Age
                             </label>
@@ -161,14 +161,14 @@ function Register() {
                         </div>
                         
                         {/* Input for uploading a file */}
-                        <div className="mb-3">
+                        <div className="mb-3"  style={{display:'contents'}}>
                             <label htmlFor="file" className="form-label">
                                 Profile Photo
                             </label>
                             <input type="file" className="form-control" id="file" accept="image/*" onChange={handleFileChange} />
                         </div>
                         
-                        <button type="submit" className="btn btn-dark">
+                        <button type="submit" className="btn btn-dark" style={{marginTop:'10px'}}>
                             Register
                         </button>
                     </form>
