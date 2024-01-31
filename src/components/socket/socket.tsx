@@ -66,12 +66,33 @@ const Socket = () => {
 
     const sendMessage = () => {
         if (messageInput.trim() !== "" && socket) {
-            const email = localStorage.getItem('email');
-            const name = localStorage.getItem('name'); // Retrieve username from local storage
-            const messageData = {
-                message: (name ? name : email) + ": " + messageInput, // Use username if available, otherwise fallback to email
-                timestamp: new Date().getTime() // Get current timestamp
-            };
+            const user = localStorage.getItem('user');
+            console.log("user: ", user);
+            const userData = JSON.parse(user);
+            const { _id, name, email } = userData;
+            console.log("_id: ", _id);
+            console.log("name: ", name);
+            console.log("email: ", email);
+            let messageData = {}
+            if (name != null) {
+                messageData = {
+                    message: name + ": " + messageInput, // Use username if available, otherwise fallback to email
+                    timestamp: new Date().getTime() // Get current timestamp
+                };
+            }
+            else if (email != null) {
+                messageData = {
+                    message: email + ": " + messageInput, // Use username if available, otherwise fallback to 
+                    timestamp: new Date().getTime() // Get current timestamp
+                };
+            }
+            else {
+                messageData = {
+                    message: "Guest: " + messageInput, // Use username if available, otherwise fallback to email
+                    timestamp: new Date().getTime() // Get current timestamp
+                };
+            }
+
             socket.emit("message", messageData); // Send message with timestamp
             setMessageInput("");
         }
@@ -99,7 +120,7 @@ const Socket = () => {
                         <div>
                             <ul className="message-list">
                                 {messageList.map((item, index) => (
-                                    <li key={index} className={`message ${item.message?.startsWith(localStorage.getItem('email')) ? 'own-message' : 'other-message'}`}>
+                                    <li key={index} className={`message ${item.message?.startsWith(localStorage.getItem('user')) ? 'own-message' : 'other-message'}`}>
                                         <span className="message-time">{formatTime(item?.timestamp)}</span>
                                         <div className="message-text">
                                             <h4>{item?.message}</h4>
