@@ -133,7 +133,7 @@ function Profile() {
             console.error('Failed to update user:', error);
 
             if (error.response?.data?.error.includes('fails to match the required pattern: /^[a-zA-Z\\s]+$/')) {
-                setErrorMessage('The name must be in characters');
+                setErrorMessage('The name must be in characters in English');
             } else {
                 setErrorMessage(error.response?.data?.error || 'Failed to update user');
             }
