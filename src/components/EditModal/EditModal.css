@@ -1,0 +1,27 @@
+/* EditModal.css */
+.edit-modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .edit-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+  }
+  
+  .rating-slider-container {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .modalHeader{
+    color: black;
+  }

@@ -1,0 +1,15 @@
+.modalTitle{
+    color: black;
+    margin-bottom: 10px;
+    font-size: large;
+}
+.slider{
+    color: black;
+}
+.imageInput{
+    margin-bottom: 50px;
+}
+.submitButton{
+    display: flex;
+    justify-content: center;
+}

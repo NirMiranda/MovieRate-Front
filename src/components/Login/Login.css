@@ -1,9 +1,43 @@
+/* Login.css */
+
+/* Center the button */
+.loginBtn {
+    color: white;
+    background-color: transparent;
+    border-color: white;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 6px 12px; /* Adjusted padding to make it smaller */
+    font-size: 14px; /* Adjusted font size to make it smaller */
+    height: 70%;
+}
+
+/* Center the form */
 form {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-left: 20%;
-    margin-right: 10px;
-    margin-top: 10%;
-    margin-bottom: 10%; 
+    margin: 10% auto; /* Center the form horizontally and give some top margin */
+    max-width: 300px; /* Adjust the maximum width as needed */
+}
+
+/* Style the modal */
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style the modal header */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Ensure the modal body text is black */
+.modal-body {
+    color: black;
 }

@@ -1,0 +1,85 @@
+
+
+.lastdivcarosel {
+    width: 100%;
+    height: 300px;
+    margin-top: 5%;
+    background-color: rgb(25, 25, 25);
+}
+
+.carouselItem {
+    height: 300px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.imgcarosel {
+    width: 100%;
+    height: 300px;
+
+}
+
+.newestmovies {
+    margin-right: 2%;
+    margin-left: 2%;
+    width: 60%;
+    margin: 0 auto;
+}
+
+
+
+.top-ten {
+    margin-top: -150px;
+}
+
+.slidertopten {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
+.card {
+    background-color: rgb(25, 25, 25);
+    border-color: rgb(25, 25, 25);
+}
+
+.card-img {
+    height: 300px;
+    width: 100%;
+}
+
+.card-caption {
+    color: white;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: -70px;
+}
+
+.all-movies {
+    margin-top: -150px;
+}
+
+.dropDowns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    margin-left: -10px;
+}
+
+.Cards {
+    padding-left: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-column-start: auto;
+    justify-content: center;
+}
+
+.Cards::after {
+    content: '';
+    min-width: 15rem; /* Adjust the min-width to match your card width */
+    max-width: 1fr;
+}
+.Moviecard{
+    margin: 0 auto;
+}

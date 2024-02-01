@@ -1,7 +1,4 @@
-.modal{
-    color: black;
-}
-.registerBtn {
+.logoutBtn{
     color: white;
     background-color: transparent;
     border-color: white;
@@ -11,9 +8,4 @@
     padding: 6px 12px; /* Adjusted padding to make it smaller */
     font-size: 14px; /* Adjusted font size to make it smaller */
     height: 70%;
-}
-
-.modalDialog{
-    margin-top: 450px!important;
-    display: flex;
 }
