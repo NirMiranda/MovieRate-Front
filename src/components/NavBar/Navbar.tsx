@@ -7,6 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import './Navbar.css';
 import Logout from '../Logout/Logout';
 
+
 function Navbar() {
   const [user, setUser] = useState(null);
 
@@ -32,23 +33,25 @@ function Navbar() {
   }, []);
 
   return (
+    
+    // <nav className="navbar navbar-expand-lg navbar-light bg-light">
     <nav className="navbar navbar-expand-lg fixed-top navbar-light" id="mainNav" style={{backgroundColor: '#1A1A1A'}}>
       <div className="container">
         <Link className="nav-link" to="/">
           <img src={WhiteLogo} alt="Logo" style={{ maxHeight: '50px', marginRight: '10px' }} />
         </Link>
         <button
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarResponsive"
-          className="navbar-toggler navbar-toggler-right"
-          type="button"
-          aria-controls="navbarResponsive"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i className="fa fa-align-justify"></i>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarResponsive">
+        className="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarResponsive"
+        aria-controls="navbarResponsive"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div className="collapse navbar-collapse" id="navbarResponsive">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/About">
