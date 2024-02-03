@@ -39,21 +39,6 @@ const StyledMuiButton = ({ children, onClick }: { children: React.ReactNode; onC
     </MuiButton>
 );
 
-const StyledMuiButton = ({ children, onClick }: { children: React.ReactNode; onClick: () => void }) => (
-    <MuiButton
-        variant="contained"
-        style={{
-            backgroundColor: 'green',
-            color: 'white',
-            borderRadius: '50%',
-            marginTop: '10px',
-            fontSize: '12px',
-        }}
-        onClick={onClick}
-    >
-        {children}
-    </MuiButton>
-);
 
 const ProfileContainer = styled.div`
     text-align: center;

@@ -100,6 +100,7 @@ const UploadMovieModal: React.FC<UploadMovieModalProps> = ({ isOpen, onClose }) 
 
                 // Close the modal after successfully saving the movie
                 onClose();
+                window.location.reload();
             } catch (error) {
                 console.error('Error saving movie:', error);
                 // Handle error (e.g., show an error message to the user)

@@ -130,6 +130,7 @@ function Register() {
             });
     
             const { accessToken, refreshToken, user } = googleResponse.data;
+          
     
             if (user.photo) {
                 try {
@@ -151,12 +152,17 @@ function Register() {
                 name: user.name,
                 photo: user.photo,
                 email: user.email,
+                _id: user.id,
             };
+
+            delete user.age;
+            delete user.password;
             
-            localStorage.setItem('user', JSON.stringify(simplifiedUser));
+            localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('isGoogleSignIn','true');
+
     
             // Provide feedback to the user
             setValidationError('Google registration successful!');
@@ -171,6 +177,7 @@ function Register() {
     
             // Optionally, you can navigate to the Movies page or close the modal
             navigate('/Movies');
+            window.location.reload();
         } catch (error) {
             console.error('Google registration failed:', error);
     
