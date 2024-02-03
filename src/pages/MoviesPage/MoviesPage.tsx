@@ -138,7 +138,8 @@ const handlePrevPage = () => {
   return (
     <div className='MoviesPage'>
       <div className="page" style={{width:'65%',margin:'0 auto'}}>
-      <section className="lastmovies" style={{padding:'4rem 0'}}>
+      {newestmovies.length > 0 && (
+      <section className="lastmovies" style={{padding:'4rem 0',marginTop:'15px'}}>
         <h2 className="lastMoviesh2" style={{textAlign:'center'}}> Latest movies</h2>
         <div className="lastdivcarosel"  style={{height:'400px'}}>
           <Carousel className="newestmovies" style={{height:'100%'}}>
@@ -162,8 +163,13 @@ const handlePrevPage = () => {
           </Carousel>
         </div>
       </section>
-      
+            )}
+
       <section className="all-movies" style={{width:'65%',margin:'0 auto',padding:'0'}}>
+      {filteredMovies.length === 0 ? (
+          <p style={{ textAlign: 'center', marginTop: '250px' }}>There are no movies in the site yet</p>
+        ) : (
+          <div>
         <h2 style={{textAlign:'center'}}>All Movies</h2>
         <div className="dropDowns">
           <Dropdown style={{ marginRight: '15px' }}>
@@ -207,10 +213,9 @@ const handlePrevPage = () => {
               ))}
               <Dropdown.Item onClick={() => handleGenreSelect(null)}>Clear</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
-
-         
+          </Dropdown>   
         </div>
+       
         <div className="Cards">
         {currentMovies.map((movie) => (
           <Moviecard
@@ -229,6 +234,8 @@ const handlePrevPage = () => {
           Next
         </Button>
       </div>
+      </div>
+        )}
       </section>
       </div>
     </div>
