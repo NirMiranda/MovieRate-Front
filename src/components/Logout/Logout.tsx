@@ -21,6 +21,7 @@ function Logout() {
       localStorage.removeItem('user');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+      localStorage.removeItem('isGoogleSignIn');
         window.location.href = '/';
         } catch (error) {
         console.error(error);
