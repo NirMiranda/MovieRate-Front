@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+// Import statements (similar to your existing imports)
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button as MuiButton, TextField, Box, Slider } from '@mui/material'; // Import Material-UI Button
 import axios from 'axios';
@@ -10,7 +11,8 @@ import { movie } from '../MoviesPage/MoviesPage';
 
 
 
-export interface UserType {
+export // Interface definition for user details
+    interface UserType {
     _id: string;
     name: string;
     email: string;
@@ -37,13 +39,14 @@ const StyledMuiButton = ({ children, onClick }: { children: React.ReactNode; onC
     </MuiButton>
 );
 
+
 const ProfileContainer = styled.div`
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color:black;
+    background-color: black;
 `;
 
 const Card = styled.div`
@@ -87,13 +90,18 @@ const GenderSelector = styled.select`
     padding: 5px;
 `;
 
+// Main functional component
 function Profile() {
     const [user, setUser] = useState<UserType | null>(null);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isAddMovieModalOpen, setAddMovieModalOpen] = useState(false); // Add this line
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [selectedGender, setSelectedGender] = useState<string>('default');
+    const [isGoogleSignIn, setIsGoogleSignIn] = useState<boolean | null>(null);
+    const [showNoUserMessage, setShowNoUserMessage] = useState(false); // New state variable
 
+
+    // useEffect to fetch user details on component mount
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
@@ -111,67 +119,74 @@ function Profile() {
                 });
 
                 setUser(response.data.user);
-            } catch (error) {
+                setIsGoogleSignIn(localStorage.getItem('isGoogleSignIn') === 'true');
+
+
+            } catch (error: any) {
                 console.log('Failed to fetch user details:', error);
+                if (error.response && error.response.status === 401) {
+                    setShowNoUserMessage(true);
+                }
             }
         };
 
-        fetchUserDetails();
+        if (localStorage.getItem('refreshToken')) {
+            fetchUserDetails();
+        }
+        else {
+            setShowNoUserMessage(true);
+        }
     }, []);
 
+    // Handler for updating user details
     const handleUpdateButton = async () => {
         try {
-            // Convert the "Name" field to a string before sending the request
             const updatedUser = {
                 ...user,
                 name: String(user?.name),
             };
 
-            // Additional check for space character in the name
             if (updatedUser.name.trim() === '') {
                 setErrorMessage('The name must contain letters');
                 return;
             }
 
-            // Conditionally update the password
             if (user?.password !== undefined) {
-                updatedUser.password = user.password.trim(); // Trim whitespace from the password
+                updatedUser.password = user.password.trim();
             } else {
-                // If the password field is empty or undefined, remove it from the request
                 delete updatedUser.password;
             }
 
-            // Send Axios request to update user details
             const response = await axios.put(`http://localhost:3003/user/${user?._id}`, updatedUser);
 
             if (response.status === 200) {
                 console.log('User updated successfully');
                 setIsEditMode(false);
-                setErrorMessage(null); // Clear any previous error message
+                setErrorMessage(null);
             }
         } catch (error) {
             console.error('Failed to update user:', error);
 
-            // Check for specific error messages
             if (error.response?.data?.error.includes('fails to match the required pattern: /^[a-zA-Z\\s]+$/')) {
-                setErrorMessage('The name must be in characters');
+                setErrorMessage('The name must be in characters in English');
             } else {
                 setErrorMessage(error.response?.data?.error || 'Failed to update user');
             }
         }
     };
 
+    // Handler for input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        // Update the state when the input values change
         setUser((prevUser) => ({
             ...(prevUser as UserType),
             [name]: value,
         }));
-        setErrorMessage(null); // Clear the error message when the user edits the input
+        setErrorMessage(null);
     };
 
+    // Handler for gender selection change
     const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedGender(e.target.value);
     };
@@ -180,88 +195,98 @@ function Profile() {
         setAddMovieModalOpen(true);
     };
 
+    // JSX structure
     return (
         <ProfileContainer>
-            <Card>
-                {/* Display user details */}
-                {user && (
-                    <>
-                        {/* Gender Selector */}
-                        <h2>Gender</h2>
-                        <GenderSelector value={selectedGender} onChange={handleGenderChange}>
-                            <option value="default">both</option>
-                            <option value="woman">Woman</option>
-                            <option value="man">Man</option>
-                            <option value="myimage" >my image</option>
-                        </GenderSelector>
+            {showNoUserMessage && (
+                <p style={{ color: 'red', marginTop: '100px' }}>No user logged in. Please log in.</p>
+            )}
 
-                        <CardImage
-                            src={
-                                selectedGender === 'woman'
-                                    ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_people_person_profile_user_woman_icon_123357.png'
-                                    : selectedGender === 'myimage'
-                                        ? user?.photo // Use user.photo if available, otherwise a default image
-                                        : selectedGender === 'man'
-                                            ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_nurse_people_person_profile_user_icon_123369.png'
-                                            : 'https://img.icons8.com/plasticine/2x/test-account.png'
-                            }
-                            alt={user?.name}
-                        />
-                        <Title>
-                            Name:{' '}
-                            {isEditMode ? (
-                                <input type="text" name="name" value={user.name} onChange={handleChange} />
-                            ) : (
-                                user.name
-                            )}
-                        </Title>
-                        <p>
-                            Email:{' '}
-                            {isEditMode ? (
-                                <input type="text" name="email" value={user.email} onChange={handleChange} />
-                            ) : (
-                                user.email
-                            )}
-                        </p>
-                        <p>
-                            Age:{' '}
-                            {isEditMode ? (
-                                <input type="number" name="age" value={user.age} onChange={handleChange} />
-                            ) : (
-                                `${user.age}`
-                            )}
-                        </p>
-                        <p>
-                            Password:{' '}
-                            {isEditMode ? (
-                                <input type="password" name="password" value={user.password} onChange={handleChange} />
-                            ) : (
-                                '*******'
-                            )}
-                        </p>
-                        {/* Add other user details as needed */}
-                    </>
-                )}
+            {!showNoUserMessage && (
+                <>
+                    <Card>
+                        {user && (
+                            <>
+                                <h2>Gender</h2>
+                                <GenderSelector value={selectedGender} onChange={handleGenderChange}>
+                                    <option value="default">both</option>
+                                    <option value="woman">Woman</option>
+                                    <option value="man">Man</option>
+                                    <option value="myimage">my image</option>
+                                </GenderSelector>
 
-
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                {isEditMode ? (
-                    <Button onClick={handleUpdateButton}>Save</Button>
-                ) : (
-                    <Button onClick={() => setIsEditMode(true)}>Update</Button>
-                )}
-                <StyledMuiButton onClick={handleAddMovieButtonClick}>Upload your own movie</StyledMuiButton>
-            </Card>
+                                <CardImage
+                                    src={
+                                        selectedGender === 'woman'
+                                            ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_people_person_profile_user_woman_icon_123357.png'
+                                            : selectedGender === 'myimage'
+                                                ? user?.photo // Use user.photo if available, otherwise a default image
+                                                : selectedGender === 'man'
+                                                    ? 'https://cdn.icon-icons.com/icons2/1999/PNG/512/avatar_nurse_people_person_profile_user_icon_123369.png'
+                                                    : 'https://img.icons8.com/plasticine/2x/test-account.png'
+                                    }
+                                    alt={user?.name}
+                                />
+                                <Title>
+                                    Name:{' '}
+                                    {isEditMode ? (
+                                        <input type="text" name="name" value={user.name} onChange={handleChange} />
+                                    ) : (
+                                        user.name
+                                    )}
+                                </Title>
+                                <p>
+                                    Email:{' '}
+                                    {(isEditMode && !isGoogleSignIn) ? (
+                                        <input type="text" name="email" value={user.email} onChange={handleChange} />
+                                    ) : (
+                                        user.email
+                                    )}
+                                </p>
+                                {(!isGoogleSignIn || (isEditMode && !isGoogleSignIn)) && (
+                                    <>
+                                        <p>
+                                            Age:{' '}
+                                            {(isEditMode && !isGoogleSignIn) ? (
+                                                <input type="number" name="age" value={user.age} onChange={handleChange} />
+                                            ) : (
+                                                `${user.age}`
+                                            )}
+                                        </p>
+                                        <p>
+                                            Password:{' '}
+                                            {(isEditMode && !isGoogleSignIn) ? (
+                                                <input type="password" name="password" value={user.password} onChange={handleChange} />
+                                            ) : (
+                                                '*******'
+                                            )}
+                                        </p>
+                                    </>
+                                )}
+                            </>
+                        )}
 
 
-            <UploadMovieModal isOpen={isAddMovieModalOpen} onClose={() => setAddMovieModalOpen(false)} />
+                        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                        {isEditMode ? (
+                            <Button onClick={handleUpdateButton}>Save</Button>
+                        ) : (
+                            <Button onClick={() => setIsEditMode(true)}>Update</Button>
+                        )}
+                        <StyledMuiButton onClick={handleAddMovieButtonClick}>Upload your own movie</StyledMuiButton>
+                    </Card>
 
-            <UserMovies userId={user?._id ?? ''} />
 
-            <div style={{ justifyContent: 'center' }}><h2 style={{ textAlign: 'center', marginTop: '20px' }}>User's Reviews</h2></div>
+                    <UploadMovieModal isOpen={isAddMovieModalOpen} onClose={() => setAddMovieModalOpen(false)} />
+
+                    <UserMovies userId={user?._id ?? ''} />
+
+                    <div style={{ justifyContent: 'center' }}><h2 style={{ textAlign: 'center', marginTop: '20px' }}>User's Reviews</h2></div>
 
 
-            <MovieReviews reviews={user?.reviews ?? []} />
+                    <MovieReviews reviews={user?.reviews ?? []} />
+                </>
+            )}
 
         </ProfileContainer>
     );

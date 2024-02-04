@@ -70,10 +70,12 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
   const handleMouseEnter = (reviewId: string,reviewerId: string) => {
     setHoveredReview(reviewId);
     setHoveredReview2(reviewerId);
+    console.log('hoveredReview2 on MoviePage:', reviewerId);
   };
 
   const handleMouseLeave = () => {
     setHoveredReview(null);
+    setHoveredReview2(null);
   };
 
   const handleExpandClick = (reviewId: string) => {
@@ -113,7 +115,12 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
     setOpenModal(false);
     setSelectedReviewId(null);
   };
-  const selectedReview = reviews.find((review) => review._id === selectedReviewId) || null;
+  const selectedReview = reviews.find((review) => review._id === selectedReviewId) || null;  
+
+  if (reviews.length === 0) {
+    return <div className="no-reviews-message" style={{color:'red',textAlign:'center',fontSize:'24px'}}>There are no reviews yet</div>;
+  }
+
   return (
     <div className='reviewsBox'>
       <div className='reviewItems'>

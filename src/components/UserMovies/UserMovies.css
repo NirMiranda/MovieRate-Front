@@ -21,6 +21,7 @@
 .MovieCardImage {
   width: 100%;
   height: auto;
+  max-height: 293.25px;
 }
 
 .carousel-control-next{
@@ -29,5 +30,8 @@
 }
 .carousel-control-prev {
   width: 5%!important;
+}
+.card{
+  cursor: pointer;
 }
 

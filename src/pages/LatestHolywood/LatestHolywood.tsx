@@ -1,9 +1,8 @@
-// UpcomingMovies.js
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Upcoming.css';
+import './LatestHolywood.css';
 
-function Upcoming() {
+function Latest() {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
 
   useEffect(() => {
@@ -14,7 +13,7 @@ function Upcoming() {
         const upcomingMoviesData = response.data.results;
 
         // Sort upcoming movies by release date
-        upcomingMoviesData.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
+        upcomingMoviesData.sort((b, a) => new Date(a.release_date) - new Date(b.release_date));
 
         // Group movies by release month and year
         const groupedMovies = upcomingMoviesData.reduce((acc, movie) => {
@@ -41,7 +40,7 @@ function Upcoming() {
 
   return (
     <div className="upcoming-container">
-      <h1 className="upcoming-heading">Last Releases Movies</h1>
+      <h1 className="upcoming-heading">Recently released movies</h1>
       {Object.keys(upcomingMovies).map((group) => (
         <div className='groupDiv' key={group}>
           <h2 className="group-heading"><strong>{group}</strong></h2>
@@ -68,4 +67,4 @@ function Upcoming() {
   );
 }
 
-export default Upcoming;
+export default Latest;

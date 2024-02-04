@@ -10,7 +10,6 @@ import './MoviePage.css';
 import OtherInfo from '../../components/otherInfo/otherInfo';
 import MovieReviews, { ReviewType } from '../../components/movieReviews/movieReviews';
 import AddReviewModal from '../../components/addReviewModal/addReviewModal';
-import { UserType } from '../ProfilePage/Profile';
 
 
 
@@ -51,7 +50,6 @@ function MoviePage() {
 
     fetchMovie();
   }, []);
-  console.log(movieItem);
   return (
 
     <div className="moviePage">

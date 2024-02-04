@@ -13,16 +13,16 @@ function About() {
             <BiMovie /> Our Platform
           </h1>
           <p className="description">
-            Welcome to CineSnap, where movie enthusiasts gather to share their passion for cinema.
+            Welcome to MoView, where movie enthusiasts gather to share their passion for cinema.
           </p>
         </div>
 
         <div className="section">
           <h1 className="title">
-            <BiStar /> Why Choose CineSnap?
+            <BiStar /> Why Choose MoView?
           </h1>
           <p>
-            At CineSnap, we believe in the power of community. Our platform allows users to connect with each other,
+            At MoView, we believe in the power of community. Our platform allows users to connect with each other,
             discuss their favorite movies, and discover new cinematic gems.
           </p>
         </div>
@@ -49,7 +49,7 @@ function About() {
 
         <div className="section">
           <p className="title">
-            Join us at CineSnap and be part of a vibrant community dedicated to the art of filmmaking.
+            Join us at MoView and be part of a vibrant community dedicated to the art of filmmaking.
           </p>
         </div>
 
