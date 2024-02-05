@@ -19,7 +19,6 @@ const Socket = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
     useEffect(() => {
         newSocket.on("connect", function () { console.log("Connected to socket.io server"); });
         // Set the socket in state
@@ -74,24 +73,24 @@ const Socket = () => {
             let messageData = {}
             if (name != null) {
                 messageData = {
-                    message: name + ": " + messageInput, // Use username if available, otherwise fallback to email
-                    timestamp: new Date().getTime() // Get current timestamp
+                    message: name + ": " + messageInput,
+                    timestamp: new Date().getTime()
                 };
             }
             else if (email != null) {
                 messageData = {
-                    message: email + ": " + messageInput, // Use username if available, otherwise fallback to 
-                    timestamp: new Date().getTime() // Get current timestamp
+                    message: email + ": " + messageInput,
+                    timestamp: new Date().getTime()
                 };
             }
             else {
                 messageData = {
-                    message: "Guest: " + messageInput, // Use username if available, otherwise fallback to email
-                    timestamp: new Date().getTime() // Get current timestamp
+                    message: "Guest: " + messageInput,
+                    timestamp: new Date().getTime()
                 };
             }
 
-            socket.emit("message", messageData); // Send message with timestamp
+            socket.emit("message", messageData);
             setMessageInput("");
         }
     };

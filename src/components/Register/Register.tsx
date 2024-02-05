@@ -122,27 +122,27 @@ function Register() {
 
     const onGoogleLoginSuccess = async (response: any) => {
         console.log(response);
-    
+
         const { credential } = response;
         try {
             const googleResponse = await axios.post('http://localhost:3003/auth/google', {
                 credential,
             });
-    
+
             const { accessToken, refreshToken, user } = googleResponse.data;
-          
-    
+
+
             if (user.photo) {
                 try {
                     const fileResponse = await axios.post<{ url: string }>('http://localhost:3003/file', {
                         file: user.photo,
                     });
-    
+
                     const updatedUser = {
                         ...user,
                         photo: fileResponse.data.url,
                     };
-    
+
                     localStorage.setItem('user', JSON.stringify(updatedUser));
                 } catch (fileError) {
                     console.error('Failed to update fileUrl:', fileError);
@@ -151,30 +151,30 @@ function Register() {
 
             delete user.age;
             delete user.password;
-            
+
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-            localStorage.setItem('isGoogleSignIn','true');
+            localStorage.setItem('isGoogleSignIn', 'true');
 
-    
+
             // Provide feedback to the user
             setValidationError('Google registration successful!');
-    
+
             const tokenResponse = await axios.get('http://localhost:3003/user/token', {
                 headers: {
                     Authorization: `Bearer ${refreshToken}`,
                 },
             });
-    
+
             console.log('User obtained using accessToken:', tokenResponse.data.user);
-    
+
             // Optionally, you can navigate to the Movies page or close the modal
             navigate('/Movies');
             window.location.reload();
         } catch (error) {
             console.error('Google registration failed:', error);
-    
+
             // Update the UI with an error message (you can add state for this)
             setValidationError('Google registration failed');
         }
@@ -202,7 +202,7 @@ function Register() {
                     )}
                     <form onSubmit={handleFormSubmit}>
                         <h3>Hello, please register</h3>
-                        <div className="mb-3" style={{display:'contents'}}>
+                        <div className="mb-3" style={{ display: 'contents' }}>
                             <label htmlFor="exampleInputEmail1" className="form-label">
                                 Full name
                             </label>
@@ -220,21 +220,20 @@ function Register() {
                         <div id="emailHelp" className="form-text">
                             We'll never share your email with anyone else.
                         </div>
-
-                        <div className="mb-3" style={{display:'contents'}}>
+                        <div className="mb-3" style={{ display: 'contents' }}>
                             <label htmlFor="password" className="form-label">
                                 Password
                             </label>
                             <input type="password" className="form-control" id="password" />
                         </div>
-                        <div className="mb-3"  style={{display:'contents'}}>
+                        <div className="mb-3" style={{ display: 'contents' }}>
                             <label htmlFor="age" className="form-label">
                                 Age
                             </label>
                             <input type="number" className="form-control" id="age" min={0} max={120} />
                         </div>
 
-                        <div className="mb-3"  style={{display:'contents'}}>
+                        <div className="mb-3" style={{ display: 'contents' }}>
                             <label htmlFor="file" className="form-label">
                                 Profile Photo
                             </label>
@@ -247,7 +246,7 @@ function Register() {
                             />
                         </div>
 
-                        <button type="submit" className="btn btn-dark" style={{marginTop:'10px'}}>
+                        <button type="submit" className="btn btn-dark" style={{ marginTop: '10px' }}>
                             Register
                         </button>
                         <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />

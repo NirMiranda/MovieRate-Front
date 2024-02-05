@@ -39,6 +39,8 @@ function NavigationBar() {
     <><nav className="navbar navbar-expand-lg fixed-top navbar-light" id="mainNav" style={{ backgroundColor: '#1A1A1A' }}>
       <div className="container">
         <Link className="nav-link" to="/">
+          {/* add me a div  */}
+
           <img src={WhiteLogo} alt="Logo" style={{ maxHeight: '50px', marginRight: '10px' }} />
         </Link>
         <button
