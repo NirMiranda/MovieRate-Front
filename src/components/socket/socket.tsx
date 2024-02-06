@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 
 import "./socket.css"
@@ -8,21 +8,30 @@ export type timeMessage = {
     message: string
     timestamp: string
 }
-const newSocket = io("http://localhost:3003", {
-    transports: ["websocket"],
-});
+
+
+
 const Socket = () => {
     const [messageList, setMessageList] = useState<timeMessage[]>([]);
     const [messageInput, setMessageInput] = useState('');
-    const [socket, setSocket] = useState(null);
+    // const [socket, setSocket] = useState(null);
     const [showMessages, setShowMessages] = useState(false); // State to manage visibility of messages
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const socketRef = useRef<any>(null);
     useEffect(() => {
-        newSocket.on("connect", function () { console.log("Connected to socket.io server"); });
+        console.log("before");
+        const newSocket = io("http://localhost:3003", {
+            transports: ["websocket"],
+        });
+        newSocket.on("connect", function () {
+            console.log("Connected to socket.io server");
+        });
+        socketRef.current = newSocket;
+
         // Set the socket in state
-        setSocket(newSocket);
+        // setSocket(newSocket);
         // Retrieve message history from local storage
         const storedMessages = JSON.parse(localStorage.getItem('messageHistory'));
         console.log("stored messages:", storedMessages);
@@ -31,25 +40,26 @@ const Socket = () => {
             typeof message === 'object' && message !== null && !isNaN(new Date(message.timestamp).getTime())
         ));
         if (validatedMessages) { setMessageList(validatedMessages); }
-        // Clean up the socket connection on component unmount
-        return () => { newSocket.disconnect(); };
-    }, []);
-    useEffect(() => {
-        console.log("my message list:", messageList);
-        // Save message history to local storage whenever it changes
-        localStorage.setItem('messageHistory', JSON.stringify(messageList));
 
         newSocket.on("message", function (messageData) {
             console.log("Received message:", messageData);
             appendMessage(messageData.message, messageData.timestamp);
         });
+        // Clean up the socket connection on component unmount
+        return () => { newSocket.disconnect(); };
+    }, []);
+
+    useEffect(() => {
+        console.log("my message list:", messageList);
+        // Save message history to local storage whenever it changes
+        localStorage.setItem('messageHistory', JSON.stringify(messageList));
     }, [messageList]);
 
 
     const appendMessage = (message: string, timestamp: string) => {
-        const newMessageList = [...messageList, { message, timestamp }];
-        console.log("newMessageList: ", newMessageList)
-        setMessageList(newMessageList);
+        // const newMessageList = [...messageList, { message, timestamp }];
+        // console.log("newMessageList: ", newMessageList)
+        setMessageList(prev => [...prev, { message, timestamp }]);
     };
     const formatTime = (date: string) => {
         const mydate = new Date(date);
@@ -62,7 +72,7 @@ const Socket = () => {
     };
 
     const sendMessage = () => {
-        if (messageInput.trim() !== "" && socket) {
+        if (messageInput.trim() !== "" && socketRef.current !== null) {
             const user = localStorage.getItem('user');
             console.log("user: ", user);
             const userData = JSON.parse(user);
@@ -99,8 +109,7 @@ const Socket = () => {
                 }
             }
 
-
-            socket.emit("message", messageData);
+            socketRef.current.emit("message", messageData);
             setMessageInput("");
         }
     };
