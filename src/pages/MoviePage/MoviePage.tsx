@@ -19,10 +19,19 @@ import { UserType } from '../ProfilePage/Profile';
 function MoviePage() {
   const [isAddReviewModalOpen, setAddReviewModalOpen] = useState<boolean>(false);
   const [movieItem, setMovie] = useState<movie | undefined>(undefined);
+
   const movieId = useParams().id;
   const apiUrl = `http://localhost:3003/movie/getMovieById/${movieId}`;
   const handleAddReviewClick = () => {
-    setAddReviewModalOpen(true);
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (refreshToken) {
+      setAddReviewModalOpen(true);
+    } else {
+      // Display a message to log in
+      alert('Please log in to add a review');
+      // Alternatively, you can redirect to the login page or show a login modal
+    }
   };
 
 
@@ -91,10 +100,14 @@ function MoviePage() {
         <h1 className='reviewsTitle' style={{ textAlign: 'center', marginTop: '20px' }}>Users Thoughts</h1>
         <MovieReviews reviews={movieItem?.reviews ?? []} />
         <div className='addReview'>
+        {localStorage.getItem('refreshToken') ? (
           <Button variant="contained" onClick={handleAddReviewClick}>
             Add your review
           </Button>
-        </div>
+        ) : (
+          <p style={{color:'red',fontSize:'24px'}}>Please log in to add a review</p>
+        )}
+      </div>
       </div>
       <AddReviewModal
         open={isAddReviewModalOpen}
