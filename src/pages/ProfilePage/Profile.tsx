@@ -3,7 +3,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button as MuiButton, TextField, Box, Slider } from '@mui/material'; // Import Material-UI Button
 import axios from 'axios';
-import MovieReviews, { ReviewType } from '../../components/MovieReviews/movieReviews';
+import MovieReviews, { ReviewType } from '../../components/MovieReviews/MovieReviews';
 import UploadMovieModal from '../../components/UploadMovie/UploadMovie'
 import UserMovies from '../../components/UserMovies/UserMovies';
 import { movie } from  '../MoviesPage/MoviesPage';

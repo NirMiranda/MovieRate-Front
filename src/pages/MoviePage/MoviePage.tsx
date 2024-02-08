@@ -8,7 +8,7 @@ import { movie } from '../MoviesPage/MoviesPage';
 import YouTube from 'react-youtube';
 import './MoviePage.css';
 import OtherInfo from '../../components/otherInfo/otherInfo';
-import MovieReviews, { ReviewType } from '../../components/movieReviews/movieReviews';
+import MovieReviews from '../../components/MovieReviews/MovieReviews';
 import AddReviewModal from '../../components/addReviewModal/addReviewModal';
 import { UserType } from '../ProfilePage/Profile';
 
