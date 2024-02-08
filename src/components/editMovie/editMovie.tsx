@@ -1,19 +1,19 @@
-// UploadMovieModal.tsx
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import './UploadMovie.css';
 import axios from 'axios';
-import { Button, TextField, Box, Slider } from '@mui/material';
+import { Button} from '@mui/material';
 
 
-interface UploadMovieModalProps {
+interface UpdateMovieModalProps {
     isOpen: boolean;
     onClose: () => void;
     movieId: string;
-}
+    onSuccess: () => void;
+  }
+  
+  const UpdateMovieModal: React.FC<UpdateMovieModalProps> = ({ isOpen, onClose, movieId, onSuccess }) => {
+    const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
-const UploadMovieModal: React.FC<UploadMovieModalProps> = ({ isOpen, onClose }) => {
     const storedUser = localStorage.getItem('user');
     const userId = storedUser ? JSON.parse(storedUser)._id : '';
     const [movieData, setMovieData] = useState({
@@ -28,7 +28,33 @@ const UploadMovieModal: React.FC<UploadMovieModalProps> = ({ isOpen, onClose }) 
         uploadedBy: userId,
     });
 
-    const [errorMessages, setErrorMessages] = useState<string[]>([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const movieToUpdate = await axios.get(`http://localhost:3003/movie/getMovieById/${movieId}`);
+                const storedUser = localStorage.getItem('user');
+                const userId = storedUser ? JSON.parse(storedUser)._id : '';
+
+                setMovieData({
+                    movieName: movieToUpdate.data.movieName,
+                    year: movieToUpdate.data.year,
+                    director: movieToUpdate.data.director,
+                    actors: movieToUpdate.data.actors,
+                    genre: movieToUpdate.data.genre,
+                    image: movieToUpdate.data.image,
+                    description: movieToUpdate.data.description,
+                    trailer: movieToUpdate.data.trailer,
+                    uploadedBy: userId,
+                });
+            } catch (error) {
+                console.error('Error fetching movie data:', error);
+            }
+        };
+
+        if (isOpen) {
+            fetchData();
+        }
+    }, [isOpen, movieId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -56,79 +82,85 @@ const UploadMovieModal: React.FC<UploadMovieModalProps> = ({ isOpen, onClose }) 
         }
       };
 
-    const validateFields = () => {
+      const validateFields = () => {
         let isValid = true;
-
+    
         const errors: string[] = [];
-
+    
         if (!movieData.movieName) {
             errors.push('Movie Name is required');
         }
-
+    
         if (movieData.year < 1980 || movieData.year > 2024) {
             errors.push('Year must be between 1980 and 2024');
         }
-
+    
         if (!movieData.director) {
             errors.push('Director is required');
         }
-
-        if (!movieData.actors) {
+    
+        if (!movieData.actors ) {
             errors.push('Actors is required');
         }
-
+    
         if (!movieData.genre) {
             errors.push('Genre is required');
         }
-
+    
         if (!movieData.image) {
             errors.push('Image is required');
         }
-
+    
         if (errors.length > 0) {
             // Display error messages using alert
             alert(errors.join('\n'));
             isValid = false;
         }
-
+    
         return isValid;
     };
 
-    const handleSave = async () => {
-        const isValid = validateFields();
-
-        if (isValid) {
-            // Split actors string into an array
-            const actorsArray = movieData.actors.split(',').map(actor => actor.trim());
-
-            // Prepare the data to be sent to the backend
-            const movieDataToSend = {
-                ...movieData,
-                actors: actorsArray,
-            };
-
-            try {
-                // Make an HTTP request to save the movie in the backend
-                const response = await axios.post('http://localhost:3003/movie/postMovie', movieDataToSend, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                // Handle the response as needed (e.g., log, display a success message)
-
-                // Close the modal after successfully saving the movie
-                onClose();
-                window.location.reload();
-            } catch (error) {
-                console.error('Error saving movie:', error);
-                // Handle error (e.g., show an error message to the user)
-            }
+    const handleUpdate = async () => {
+      const isValid = validateFields();
+  
+      if (isValid) {
+        let actorsArray;
+        if (Array.isArray(movieData.actors)) {
+            actorsArray = movieData.actors.map(actor => actor.trim());
+          } else if (typeof movieData.actors === 'string') {
+            actorsArray = movieData.actors.split(',').map(actor => actor.trim());
+          } else {
+            console.error('Invalid actors format');  // Handle the case where actors is neither an array nor a string
+            return;
+          }
+        const movieDataToUpdate = {
+            ...movieData,
+            actors: actorsArray,
+            _id: movieId,  // Include movie ID in the request data
+          };
+        try {
+          // Make an HTTP request to update the movie in the backend
+          await axios.put('http://localhost:3003/movie/updateMovie', movieDataToUpdate, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+  
+          // Handle the response as needed (e.g., log, display a success message)
+  
+          // Close the modal after successfully updating the movie
+          onClose();
+          onSuccess();
+        } catch (error) {
+          console.error('Error updating movie:', error);
+          // Handle error (e.g., show an error message to the user)
         }
+      }
     };
+  
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose} className={"modal-content"}>
-            <div className="modal-header" style={{color:'black'}}>Add Movie</div>
+            <div className="modal-header" style={{color:'black'}}>Update Movie</div>
             <div className="modal-body">
                 <label>Movie Name: <input type="text" name="movieName" value={movieData.movieName} onChange={handleChange} /></label>
                 <label>Year: <input type="number" name="year" value={movieData.year} onChange={handleChange} /></label>
@@ -147,11 +179,11 @@ const UploadMovieModal: React.FC<UploadMovieModalProps> = ({ isOpen, onClose }) 
                         ))}
                     </div>
                 )}
-                <Button onClick={handleSave}>Save</Button>
+                <Button onClick={handleUpdate}>Save</Button>
                 <Button onClick={onClose}>Cancel</Button>
             </div>
         </Modal>
     );
-};
-
-export default UploadMovieModal;
+  };
+  
+  export default UpdateMovieModal;

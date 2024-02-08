@@ -98,6 +98,8 @@ function Profile() {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [selectedGender, setSelectedGender] = useState<string>('default');
     const [isGoogleSignIn, setIsGoogleSignIn] = useState<boolean | null>(null);
+    const [showNoUserMessage, setShowNoUserMessage] = useState(false); // New state variable
+
 
     // useEffect to fetch user details on component mount
     useEffect(() => {
@@ -120,12 +122,20 @@ function Profile() {
                 setIsGoogleSignIn(localStorage.getItem('isGoogleSignIn') === 'true');
                 
 
-            } catch (error) {
+            } catch (error: any) {
                 console.log('Failed to fetch user details:', error);
+                if (error.response && error.response.status === 401) {
+                    setShowNoUserMessage(true);
+                }
             }
         };
 
-        fetchUserDetails();
+        if (localStorage.getItem('refreshToken')) {
+            fetchUserDetails();
+        }
+        else {
+            setShowNoUserMessage(true);
+        }
     }, []);
 
     // Handler for updating user details
@@ -188,6 +198,12 @@ function Profile() {
     // JSX structure
     return (
         <ProfileContainer>
+                 {showNoUserMessage && (
+                <p style={{ color: 'red',marginTop:'100px' }}>No user logged in. Please log in.</p>
+            )}
+
+            {!showNoUserMessage && (
+                <>
             <Card>
                 {user && (
                     <>
@@ -269,6 +285,8 @@ function Profile() {
             
                 
             <MovieReviews reviews={user?.reviews ?? []} />
+            </>
+            )}
 
         </ProfileContainer>
     );

@@ -148,12 +148,6 @@ function Register() {
                     console.error('Failed to update fileUrl:', fileError);
                 }
             }
-            const simplifiedUser = {
-                name: user.name,
-                photo: user.photo,
-                email: user.email,
-                _id: user.id,
-            };
 
             delete user.age;
             delete user.password;

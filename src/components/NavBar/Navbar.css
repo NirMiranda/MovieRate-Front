@@ -1,53 +1,60 @@
 
-.navbar-nav li {
-display: flex;
-align-items: center;
-}
-
-.account-icon {
-font-size: xx-large;
-position: relative;
-}
-
-.account-box {
-justify-content: center;
-position: absolute;
-top: calc(100%);
-left: 50%;
-transform: translateX(-50%);
-background-color: black;
-padding: 10px;
-border-radius: 8px;
-border-color: white;
-border-width: 2px;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-border: solid;
-display: none;
-}
-
-.account-box button {
-margin-right: 10px;
-}
-
-.account-container:hover .account-box {
-display: block;
-
-}
-.account-container{
+    .navbar-nav li {
     display: flex;
+    align-items: center;
+    }
+
+    .account-icon {
+    font-size: xx-large;
+    position: relative;
+    }
+    .white-link {
+        color: white !important;
+    }
+
+    .account-box {
     justify-content: center;
-}
-.userProfile{
-    width: 105px;
-    text-align: center;
-    color: white;
-    background-color: transparent;
+    position: absolute;
+    top: calc(100%);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    padding: 10px;
+    border-radius: 8px;
     border-color: white;
-    border-radius: 10px;
-    border-width: 1px;
-    border-style: solid;
-    padding: 6px 12px; /* Adjusted padding to make it smaller */
-    font-size: 14px; /* Adjusted font size to make it smaller */
-    height: 70%;
-    text-decoration: none;
-}
+    border-width: 2px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border: solid;
+    display: none;
+    }
+
+    .account-box button {
+    margin-right: 10px;
+    }
+    .white-toggler-icon {
+        fill: white !important;
+      }
+
+    .account-container:hover .account-box {
+    display: block;
+
+    }
+    .account-container{
+        display: flex;
+        justify-content: center;
+        margin-left: 10px;
+    }
+    .userProfile{
+        width: 105px;
+        text-align: center;
+        color: white;
+        background-color: transparent;
+        border-color: white;
+        border-radius: 10px;
+        border-width: 1px;
+        border-style: solid;
+        padding: 6px 12px; /* Adjusted padding to make it smaller */
+        font-size: 14px; /* Adjusted font size to make it smaller */
+        height: 70%;
+        text-decoration: none;
+    }

@@ -2,8 +2,13 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Modal, Alert } from 'react-bootstrap';
 import './Login.css';
+import { GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function Login() {
+    const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [validationError, setValidationError] = useState<string | null>(null);
 
@@ -52,6 +57,70 @@ function Login() {
             }
         }
     };
+    const onGoogleLoginSuccess = async (response: any) => {
+        console.log(response);
+    
+        const { credential } = response;
+        try {
+            const googleResponse = await axios.post('http://localhost:3003/auth/google', {
+                credential,
+            });
+    
+            const { accessToken, refreshToken, user } = googleResponse.data;
+          
+    
+            if (user.photo) {
+                try {
+                    const fileResponse = await axios.post<{ url: string }>('http://localhost:3003/file', {
+                        file: user.photo,
+                    });
+    
+                    const updatedUser = {
+                        ...user,
+                        photo: fileResponse.data.url,
+                    };
+    
+                    localStorage.setItem('user', JSON.stringify(updatedUser));
+                } catch (fileError) {
+                    console.error('Failed to update fileUrl:', fileError);
+                }
+            }
+
+
+            delete user.age;
+            delete user.password;
+            
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('isGoogleSignIn','true');
+
+    
+            // Provide feedback to the user
+            setValidationError('Google registration successful!');
+    
+            const tokenResponse = await axios.get('http://localhost:3003/user/token', {
+                headers: {
+                    Authorization: `Bearer ${refreshToken}`,
+                },
+            });
+    
+            console.log('User obtained using accessToken:', tokenResponse.data.user);
+    
+            // Optionally, you can navigate to the Movies page or close the modal
+            navigate('/Movies');
+            window.location.reload();
+        } catch (error) {
+            console.error('Google registration failed:', error);
+    
+            // Update the UI with an error message (you can add state for this)
+            setValidationError('Google registration failed');
+        }
+    };
+
+    const onGoogleLoginFailure = () => {
+        console.log('Google login failed');
+    };
 
     return (
         <>
@@ -60,7 +129,7 @@ function Login() {
                     Login
                 </button>
             </div>
-            <Modal show={showModal} onHide={handleClose} centered={true}>
+            <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
@@ -101,6 +170,7 @@ function Login() {
                         <button type="submit" className="btn btn-dark" style={{marginTop:'10px'}}>
                             Submit
                         </button>
+                        <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
                     </form>
                 </Modal.Body>
             </Modal>

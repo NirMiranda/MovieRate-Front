@@ -5,7 +5,6 @@ import './assets/fonts/font-awesome.min.css';
 import { Button } from 'react-bootstrap';
 import Login from '../../components/Login/Login';
 import Register from '../../components/Register/Register';
-import Navbar from '../../components/NavBar/Navbar';
 import UploadMovieModal from '../../components/UploadMovie/UploadMovie';
 
 import DesignerImage from './assets/img/Designer.png';
@@ -55,7 +54,6 @@ function HomePage() {
         data-bs-target="#mainNav"
         data-bs-offset="57"
       >
-        <Navbar />
 
         <header
           className="text-center text-white d-flex masthead"
