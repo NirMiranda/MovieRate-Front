@@ -71,7 +71,7 @@ interface UpdateMovieModalProps {
           formData.append('file', file);
     
           try {
-            const uploadResponse = await axios.post<{ url: string }>('http://localhost:3003/file', formData);
+            const uploadResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', formData);
             setMovieData((prevData) => ({
               ...prevData,
               image: uploadResponse.data.url,
@@ -140,7 +140,7 @@ interface UpdateMovieModalProps {
           };
         try {
           // Make an HTTP request to update the movie in the backend
-          await axios.put('http://localhost:3003/movie/updateMovie', movieDataToUpdate, {
+          await axios.put('https://10.10.248.175/movie/updateMovie', movieDataToUpdate, {
             headers: {
               'Content-Type': 'application/json',
             },
