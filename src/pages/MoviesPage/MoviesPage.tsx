@@ -131,6 +131,7 @@ const handleNextPage = () => {
 const handlePrevPage = () => {
   setCurrentPage((prevPage) => prevPage - 1);
 };
+console.log(movies[0].image);
 
 
 
@@ -147,7 +148,7 @@ const handlePrevPage = () => {
                 <Carousel.Item className="carouselItem" interval={99999999} style={{backgroundImage: `url(${movie.image})`,height:'auto',backgroundColor:'grey',backgroundSize:'contain',backgroundBlendMode:'soft-light'}} key={movie._id} onClick={() => { if (movie._id) handleClick(movie._id)}}>
                   <img
                     className="imgcarosel"
-                    src={`/public/${movie.image}`}
+                    src='https://10.10.248.175/public/1707397081750.jpeg'
                     alt={`Movie: ${movie.movieName}`}
                     style={{width:'70%',marginLeft:'15%',height:'400px'}}
                   />

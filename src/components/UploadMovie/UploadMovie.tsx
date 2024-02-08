@@ -135,7 +135,7 @@ const UploadMovieModal: React.FC<UploadMovieModalProps> = ({ isOpen, onClose }) 
                 <label>Director: <input type="text" name="director" value={movieData.director} onChange={handleChange} /></label>
                 <label>Actors: <input type="text" name="actors" value={movieData.actors} onChange={handleChange} placeholder="Enter actors separated by commas" /></label>
                 <label>Genre: <input type="text" name="genre" value={movieData.genre} onChange={handleChange} /></label>
-                <label>Movie poster:         <input type="file" name="image" onChange={handleFileChange} /></label>
+                <label>Movie poster: <input type="file" name="image" onChange={handleFileChange} /></label>
                 <label>Description: <textarea name="description" value={movieData.description} onChange={handleChange} /></label>
                 <label>Trailer URL: <input type="text" name="trailer" value={movieData.trailer} onChange={handleChange} /></label>
             </div>
