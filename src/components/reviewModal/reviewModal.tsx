@@ -1,7 +1,7 @@
 // ReviewModal.js
 import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
 import CircularProgress from '@mui/joy/CircularProgress';
-import { ReviewType } from '../movieReviews/movieReviews';
+import { ReviewType } from '../MovieReviews/MovieReviews';
 import './reviewModal.css';
 import LikeButtonComponent from '../likeButton/likeButton';
 

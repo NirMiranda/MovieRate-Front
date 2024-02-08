@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import './EditModal.css';
-import { ReviewType } from '../MovieReviews/movieReviews';
+import { ReviewType } from '../MovieReviews/MovieReviews';
 import axios from 'axios';
 
 
