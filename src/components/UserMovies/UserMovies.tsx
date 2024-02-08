@@ -20,7 +20,7 @@ const UserMovies = ({ userId }: { userId: string }) => {
     const fetchUserMovies = async () => {
       try {
         if (userId) {
-          const response = await axios.get<movie[]>(`http://localhost:3003/user/getMoviesByUserId/${userId}`);
+          const response = await axios.get<movie[]>(`https://10.10.248.175/user/getMoviesByUserId/${userId}`);
           setMovies(response.data);
         }
       } catch (error) {
@@ -52,7 +52,7 @@ const UserMovies = ({ userId }: { userId: string }) => {
     try {
       console.log(movieIdToDelete);
       
-      await axios.delete(`http://localhost:3003/movie/deleteMoviebyid/${movieIdToDelete}`);
+      await axios.delete(`https://10.10.248.175/movie/deleteMoviebyid/${movieIdToDelete}`);
       setMovies((prevMovies) => prevMovies.filter((movie) => movie._id !== movieIdToDelete));
     } catch (error) {
       console.error('Error deleting movie:', error);

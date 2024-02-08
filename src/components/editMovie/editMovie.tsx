@@ -31,7 +31,7 @@ interface UpdateMovieModalProps {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const movieToUpdate = await axios.get(`http://localhost:3003/movie/getMovieById/${movieId}`);
+                const movieToUpdate = await axios.get(`https://10.10.248.175/movie/getMovieById/${movieId}`);
                 const storedUser = localStorage.getItem('user');
                 const userId = storedUser ? JSON.parse(storedUser)._id : '';
 

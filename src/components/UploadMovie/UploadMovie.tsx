@@ -45,7 +45,7 @@ const UploadMovieModal: React.FC<UploadMovieModalProps> = ({ isOpen, onClose }) 
           formData.append('file', file);
     
           try {
-            const uploadResponse = await axios.post<{ url: string }>('http://localhost:3003/file', formData);
+            const uploadResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', formData);
             setMovieData((prevData) => ({
               ...prevData,
               image: uploadResponse.data.url,
@@ -109,7 +109,7 @@ const UploadMovieModal: React.FC<UploadMovieModalProps> = ({ isOpen, onClose }) 
 
             try {
                 // Make an HTTP request to save the movie in the backend
-                const response = await axios.post('http://localhost:3003/movie/postMovie', movieDataToSend, {
+                const response = await axios.post('https://10.10.248.175/movie/postMovie', movieDataToSend, {
                     headers: {
                         'Content-Type': 'application/json',
                     },

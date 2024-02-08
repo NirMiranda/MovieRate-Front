@@ -25,7 +25,7 @@ const EditModal: React.FC<EditModalProps> = ({ open, handleClose, handleEdit, re
   const handleSave = () => {
     if (review) {
       const editedReview = { ...review, text: editedText, rating: editedRating, image: editedImage };
-      axios.post('http://localhost:3003/review/updateReview', editedReview)
+      axios.post('https://10.10.248.175/review/updateReview', editedReview)
         .then((response) => {
           // Handle the updated review data returned from the server if needed
           const updatedReview = response.data;

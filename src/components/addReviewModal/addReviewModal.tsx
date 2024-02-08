@@ -40,7 +40,7 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ open, handleClose, movi
             };
     
             // Make an AJAX request to your backend server
-            const response = await axios.post('http://localhost:3003/review/addReview', newReview, {
+            const response = await axios.post('https://10.10.248.175/review/addReview', newReview, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

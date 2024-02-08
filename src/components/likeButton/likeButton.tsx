@@ -29,7 +29,7 @@ const LikeButtonComponent: React.FC<LikeButtonProps> = ({ likes, reviewId }: Lik
 
     
       const updateLikes = async () => {
-        const apiUrl = 'http://localhost:3003/review/updateReview';
+        const apiUrl = 'https://10.10.248.175/review/updateReview';
         try {
           await axios.put(
             apiUrl,

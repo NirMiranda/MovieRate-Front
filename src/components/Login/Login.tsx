@@ -24,7 +24,7 @@ function Login() {
                 password: { value: string };
             };
 
-            const response = await axios.post('http://localhost:3003/auth/login', {
+            const response = await axios.post('https://10.10.248.175/auth/login', {
                 email: target.email.value,
                 password: target.password.value,
             });
@@ -62,7 +62,7 @@ function Login() {
     
         const { credential } = response;
         try {
-            const googleResponse = await axios.post('http://localhost:3003/auth/google', {
+            const googleResponse = await axios.post('https://10.10.248.175/auth/google', {
                 credential,
             });
     
@@ -71,7 +71,7 @@ function Login() {
     
             if (user.photo) {
                 try {
-                    const fileResponse = await axios.post<{ url: string }>('http://localhost:3003/file', {
+                    const fileResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', {
                         file: user.photo,
                     });
     
@@ -99,7 +99,7 @@ function Login() {
             // Provide feedback to the user
             setValidationError('Google registration successful!');
     
-            const tokenResponse = await axios.get('http://localhost:3003/user/token', {
+            const tokenResponse = await axios.get('https://10.10.248.175/user/token', {
                 headers: {
                     Authorization: `Bearer ${refreshToken}`,
                 },

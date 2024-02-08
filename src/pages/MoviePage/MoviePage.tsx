@@ -20,7 +20,7 @@ function MoviePage() {
   const [movieItem, setMovie] = useState<movie | undefined>(undefined);
 
   const movieId = useParams().id;
-  const apiUrl = `http://localhost:3003/movie/getMovieById/${movieId}`;
+  const apiUrl = `https://10.10.248.175/movie/getMovieById/${movieId}`;
   const handleAddReviewClick = () => {
     const refreshToken = localStorage.getItem('refreshToken');
 

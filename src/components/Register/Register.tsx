@@ -33,7 +33,7 @@ function Register() {
                 return;
             }
 
-            const registrationResponse = await axios.post<{ data: string }>('http://localhost:3003/auth/register', {
+            const registrationResponse = await axios.post<{ data: string }>('https://10.10.248.175/auth/register', {
                 name,
                 email,
                 password,
@@ -53,7 +53,7 @@ function Register() {
 
             setValidationError('Registration successful!');
 
-            const loginResponse = await axios.post('http://localhost:3003/auth/login', {
+            const loginResponse = await axios.post('https://10.10.248.175/auth/login', {
                 email,
                 password,
             });
@@ -62,7 +62,7 @@ function Register() {
 
             if (user.photo) {
                 try {
-                    const fileResponse = await axios.post<{ url: string }>('http://localhost:3003/file', {
+                    const fileResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', {
                         file: user.photo,
                     });
 
