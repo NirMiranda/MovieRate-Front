@@ -33,7 +33,7 @@ function ReviewModal({ open, handleClose, review }: ReviewModalProps) {
               <div className='reviewText'>
                 My thoughts: {<br></br>} {review.text}
               </div>
-              {review.reviewerId.name}'s photo: {review.image && (
+              {review.image && (
                 <div className='reviewImage'>
                   <img src={review.image} alt='Review' style={{ width: '150px', height: '150px' }}/>
                 </div>

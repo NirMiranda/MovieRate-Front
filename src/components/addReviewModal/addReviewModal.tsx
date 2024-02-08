@@ -30,14 +30,17 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ open, handleClose, movi
                 userId = user?._id || '';
             }
     
-            const newReview: ReviewType = {
-                date: new Date(),
-                reviewerId: userId,
-                movieId: movieItem?._id || '',
-                rating: rating,
-                image: image,
-                text: reviewText,
-            };
+            const defaultImageUrl = 'https://iconape.com/wp-content/png_logo_vector/comment-dots.png';
+        const imageUrl = image.trim() !== '' ? image : defaultImageUrl;
+
+        const newReview: ReviewType = {
+            date: new Date(),
+            reviewerId: userId,
+            movieId: movieItem?._id || '',
+            rating: rating,
+            image: imageUrl,
+            text: reviewText,
+        };
     
             // Make an AJAX request to your backend server
             const response = await axios.post('https://10.10.248.175/review/addReview', newReview, {
