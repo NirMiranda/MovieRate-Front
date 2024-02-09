@@ -73,8 +73,8 @@ function HomePage() {
               <div className="col-lg-10 mx-auto">
                 <h1 className="text-uppercase">
                   <strong style={{ fontFamily: 'Merriwe ather' }}>
-                    &nbsp;<span style={{ color: 'rgb(231, 7, 7)' }}>collect</span> and{' '}
-                    <span style={{ color: 'rgb(235, 10, 10)' }}>share</span> your Movies.
+                    &nbsp;<span style={{ color: 'rgb(231, 7, 7)' }}>Share</span> your{' '}
+                    <span style={{ color: 'rgb(235, 10, 10)' }}>own</span> movies.
                   </strong>
                 </h1>
                 <hr />
