@@ -31,7 +31,7 @@ interface UpdateMovieModalProps {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const movieToUpdate = await axios.get(`https://10.10.248.175/movie/getMovieById/${movieId}`);
+                const movieToUpdate = await axios.get(`https://193.106.55.175/movie/getMovieById/${movieId}`);
                 const storedUser = localStorage.getItem('user');
                 const userId = storedUser ? JSON.parse(storedUser)._id : '';
 
@@ -71,7 +71,7 @@ interface UpdateMovieModalProps {
           formData.append('file', file);
     
           try {
-            const uploadResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', formData);
+            const uploadResponse = await axios.post<{ url: string }>('https://193.106.55.175/file', formData);
             setMovieData((prevData) => ({
               ...prevData,
               image: uploadResponse.data.url,
@@ -140,7 +140,7 @@ interface UpdateMovieModalProps {
           };
         try {
           // Make an HTTP request to update the movie in the backend
-          await axios.put('https://10.10.248.175/movie/updateMovie', movieDataToUpdate, {
+          await axios.put('https://193.106.55.175/movie/updateMovie', movieDataToUpdate, {
             headers: {
               'Content-Type': 'application/json',
             },

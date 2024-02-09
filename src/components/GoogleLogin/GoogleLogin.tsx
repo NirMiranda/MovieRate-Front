@@ -7,7 +7,7 @@ function GoogleLoginComponent() {
     
         const { credential } = response;
         try {
-            const googleResponse = await axios.post('https://10.10.248.175/auth/google', {
+            const googleResponse = await axios.post('https://193.106.55.175/auth/google', {
                 credential,
             });
     
@@ -16,7 +16,7 @@ function GoogleLoginComponent() {
     
             if (user.photo) {
                 try {
-                    const fileResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', {
+                    const fileResponse = await axios.post<{ url: string }>('https://193.106.55.175/file', {
                         file: user.photo,
                     });
     
@@ -44,7 +44,7 @@ function GoogleLoginComponent() {
             // Provide feedback to the user
             setValidationError('Google registration successful!');
     
-            const tokenResponse = await axios.get('https://10.10.248.175/user/token', {
+            const tokenResponse = await axios.get('https://193.106.55.175/user/token', {
                 headers: {
                     Authorization: `Bearer ${refreshToken}`,
                 },

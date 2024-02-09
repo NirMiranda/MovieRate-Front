@@ -64,7 +64,7 @@ function Movies() {
 
   const getNewestMovies = async () => {
     try {
-      const { data } = await axios.get("https://10.10.248.175/movie/getAllMovies");
+      const { data } = await axios.get("https://193.106.55.175/movie/getAllMovies");
       const sortedMovies = data.sort((a: { year: number }, b: { year: number }) => b.year - a.year);
       const newestMovies = sortedMovies.slice(0, 10);
       setNewestmovies(newestMovies);

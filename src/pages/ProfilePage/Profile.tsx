@@ -112,7 +112,7 @@ function Profile() {
                     return;
                 }
 
-                const response = await axios.get('https://10.10.248.175/user/token', {
+                const response = await axios.get('https://193.106.55.175/user/token', {
                     headers: {
                         Authorization: `Bearer ${refreshToken}`,
                     },
@@ -157,7 +157,7 @@ function Profile() {
                 delete updatedUser.password;
             }
 
-            const response = await axios.put(`https://10.10.248.175/user/${user?._id}`, updatedUser);
+            const response = await axios.put(`https://193.106.55.175/user/${user?._id}`, updatedUser);
 
             if (response.status === 200) {
                 console.log('User updated successfully');

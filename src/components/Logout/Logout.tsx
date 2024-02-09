@@ -12,7 +12,7 @@ function Logout() {
             return;
         }
       // Make a request to your backend logout endpoint
-      await axios.post('https://10.10.248.175/auth/logout', null, {
+      await axios.post('https://193.106.55.175/auth/logout', null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

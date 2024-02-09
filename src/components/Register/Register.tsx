@@ -33,7 +33,7 @@ function Register() {
                 return;
             }
 
-            const registrationResponse = await axios.post<{ data: string }>('https://10.10.248.175/auth/register', {
+            const registrationResponse = await axios.post<{ data: string }>('https://193.106.55.175/auth/register', {
                 name,
                 email,
                 password,
@@ -53,7 +53,7 @@ function Register() {
 
             setValidationError('Registration successful!');
 
-            const loginResponse = await axios.post('https://10.10.248.175/auth/login', {
+            const loginResponse = await axios.post('https://193.106.55.175/auth/login', {
                 email,
                 password,
             });
@@ -62,7 +62,7 @@ function Register() {
 
             if (user.photo) {
                 try {
-                    const fileResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', {
+                    const fileResponse = await axios.post<{ url: string }>('https://193.106.55.175/file', {
                         file: user.photo,
                     });
 
@@ -111,7 +111,7 @@ function Register() {
             formData.append('file', file);
 
             try {
-                const uploadResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', formData);
+                const uploadResponse = await axios.post<{ url: string }>('https://193.106.55.175/file', formData);
                 setFileUrl(uploadResponse.data.url);
             } catch (uploadError) {
                 console.error('File upload failed:', uploadError);
@@ -125,7 +125,7 @@ function Register() {
     
         const { credential } = response;
         try {
-            const googleResponse = await axios.post('https://10.10.248.175/auth/google', {
+            const googleResponse = await axios.post('https://193.106.55.175/auth/google', {
                 credential,
             });
     
@@ -134,7 +134,7 @@ function Register() {
     
             if (user.photo) {
                 try {
-                    const fileResponse = await axios.post<{ url: string }>('https://10.10.248.175/file', {
+                    const fileResponse = await axios.post<{ url: string }>('https://193.106.55.175/file', {
                         file: user.photo,
                     });
     
@@ -161,7 +161,7 @@ function Register() {
             // Provide feedback to the user
             setValidationError('Google registration successful!');
     
-            const tokenResponse = await axios.get('https://10.10.248.175/user/token', {
+            const tokenResponse = await axios.get('https://193.106.55.175/user/token', {
                 headers: {
                     Authorization: `Bearer ${refreshToken}`,
                 },

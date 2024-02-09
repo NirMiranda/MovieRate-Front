@@ -22,7 +22,7 @@ const Socket = () => {
     const socketRef = useRef<any>(null);
     useEffect(() => {
         console.log("before");
-        const newSocket = io("https://10.10.248.175/", {
+        const newSocket = io("https://193.106.55.175/", {
             transports: ["websocket"],
         });
         newSocket.on("connect", function () {

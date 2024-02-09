@@ -87,7 +87,7 @@ function MovieReviews({ reviews }: MovieReviewsProps) {
     const isConfirmed = window.confirm("Are you sure you want to delete the review?");
   
     if (isConfirmed) {
-      axios.delete(`https://10.10.248.175/review/deleteReview/${reviewId}`)
+      axios.delete(`https://193.106.55.175/review/deleteReview/${reviewId}`)
         .then(() => {
           window.location.reload();
         });
