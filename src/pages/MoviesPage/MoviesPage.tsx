@@ -48,7 +48,7 @@ function Movies() {
 
   const getaAllMovies = async () => {
     try {
-      const { data } = await axios.get("https://193.106.55.175//movie/getAllMovies");
+      const { data } = await axios.get("https://193.106.55.175/movie/getAllMovies");
       setMovies(data);
       const sortedMovies = data.sort((a: { year: number; }, b: { year: number; }) => b.year - a.year);
       const uniqueYears = Array.from(new Set(sortedMovies.map((movie: movie) => movie.year)));
